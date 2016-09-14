@@ -19,7 +19,6 @@ public class Main {
 			
 			// Array must be sorted.
 			Collections.sort(arr);
-			System.out.println("arr: " + arr);
 			
 			// Test 'log3search' against the built in 'contains' method.
 			for (int i=0; i<count; i++) {
