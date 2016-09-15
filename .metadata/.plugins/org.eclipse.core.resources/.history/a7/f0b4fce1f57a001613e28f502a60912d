@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Comparator;
 
 public class Log3Search {
 	
@@ -11,10 +10,10 @@ public class Log3Search {
 	 */
 	public static <T extends Comparable<? super T>> T log3search(List<T> arr, T k) {
 		int start = 0; // inclusive start of the current subset
-		int end = arr.size(); // exclusive end of the current subset
+		int end = arr.size()-1; // inclusize end of the current subset
 		while (start <= end) {
 			// If there is only one element to check, is it the one we are looking for?
-			if (end-start == 0 && arr.get(start).compareTo(k) == 0) {
+			if (end-start == 0) {
 				if (arr.get(start).compareTo(k) == 0) {
 					return arr.get(start);
 				} else {
@@ -33,20 +32,21 @@ public class Log3Search {
 			
 			// Divide our sub-array into thirds, this is how we will get log3 time.
 			int size = end - start + 1;
-			int count = Math.min(sub.size()/3, 1);
-			List<T> front = sub.subList(0, count); // List index is exclusive
-			List<T> mid = sub.subList(count, 2*count); // First is inclusive
-			List<T> end = sub.subList(2*count, sub.size()); // Make sure to get everything.
+			int count = size/3;
+			
+			int M1 = start + count-1; // inclusive end of the first subset
+			int M2 = start + 2*count; //inclusive start of the last subset
 
 			// Find which sub-array k belongs to, and continue.
-			if (front.size() > 0 && k.compareTo(front.get(front.size()-1)) <= 0) {
-				sub = front;
-			} else if (end.size() > 0 && k.compareTo(end.get(0)) >= 0) {
-				sub = end;
+			if (k.compareTo(arr.get(M1)) <= 0) {
+				end = M1;
+			} else if (k.compareTo(arr.get(M2)) >= 0) {
+				start = M2;
 			} else {
 				// It is not less then the smallest elements, or greater than the greatest,
 				// Therefore if it exists in the array, it must be in the mid elements.
-				sub = mid;
+				start = M1 + 1;
+				end = M2 - 1;
 			}
 		}
 		
