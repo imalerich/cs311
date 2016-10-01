@@ -139,15 +139,43 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 		
 		return ret;
 	}
+	
+	/**
+	 * Computes the number of columns in the input matrix interface.
+	 * @param mat The matrix to compute the columns for.
+	 * @return The number of columns in mat.
+	 */
+	private int numColumns(IMatrix mat) {
+		// Really awful way of counting the columns of mat. But I don't really know any other way.
+		int col = -1;
+		try {
+			while (true)
+				mat.getElement(0, ++col);
+		} catch (IllegalArgumentException e) { }
+
+		return col;
+	}
+	
+	/**
+	 * Computes the number of rows in the input matrix interface.
+	 * @param mat The matrix to compute the rows for.
+	 * @return The number of rows in mat.
+	 */
+	private int numRows(IMatrix mat) {
+		// Also need to know the number of rows of mat. Still awful.
+		int row = -1;
+		try {
+			while (true)
+				mat.getElement(++row, 0);
+		} catch (IllegalArgumentException e) { }
+		
+		return row;
+	}
 
 	@Override
 	public IMatrix add(IMatrix mat) throws IllegalArgumentException {
 		int matcol = numColumns(mat);
 		int matrow = numRows(mat);
-		
-		if (matcol != this.columns || matrow != this.rows) {
-			throw new IllegalArgumentException("Addition is not defined for matrixes with mismatching sizes!");
-		}
 
 		SlowMatrix ret = new SlowMatrix(this.rows, this.columns, 0);
 		for (int r=0; r<this.rows; r++) {
@@ -192,37 +220,5 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 	@Override
 	public void execute() {
 		this.multiply(this);
-	}
-	
-	/**
-	 * Computes the number of columns in the input matrix interface.
-	 * @param mat The matrix to compute the columns for.
-	 * @return The number of columns in mat.
-	 */
-	private int numColumns(IMatrix mat) {
-		// Really awful way of counting the columns of mat. But I can't come up with any other way.
-		int col = -1;
-		try {
-			while (true)
-				mat.getElement(0, ++col);
-		} catch (IllegalArgumentException e) { }
-
-		return col;
-	}
-	
-	/**
-	 * Computes the number of rows in the input matrix interface.
-	 * @param mat The matrix to compute the rows for.
-	 * @return The number of rows in mat.
-	 */
-	private int numRows(IMatrix mat) {
-		// Really awful way of counting the columns of mat. But I can't come up with any other way.
-		int row = -1;
-		try {
-			while (true)
-				mat.getElement(++row, 0);
-		} catch (IllegalArgumentException e) { }
-		
-		return row;
 	}
 }

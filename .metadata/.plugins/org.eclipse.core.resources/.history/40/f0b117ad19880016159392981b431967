@@ -7,7 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		int[] v0 = {2, 0, 1, 2};
-		int[] v1 = {1, 2, 3, 4};
+		int[] v1 = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 		SlowMatrix m0 = new SlowMatrix(v0);
 		SlowMatrix m1 = new SlowMatrix(v1);
 		SlowMatrix r = SlowMatrix.Random(4, Integer.MAX_VALUE);

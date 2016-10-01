@@ -14,12 +14,12 @@ public class Main {
 		
 		System.out.println(m0);
 		System.out.println(m1);
-		System.out.println(m0.multiply(m1));
+//		System.out.println(m0.multiply(m1));
 		System.out.println(m0.add(m1));
 		System.out.println(m1.add(m0));
 		
 		System.out.println(r);
-		System.out.println(r.multiply(r));
+//		System.out.println(r.multiply(r));
 		System.out.println(r.add(r));
 		
 //		MeasureTimeComplexity m = new MeasureTimeComplexity();
