@@ -1,0 +1,117 @@
+package cs311.hw4;
+
+import java.util.ArrayList;
+
+public class SlowMatrix implements IMatrix, IMeasurable {
+	
+	/**
+	 * The number of rows in the represented matrix.
+	 */
+	private int rows;
+	
+	/**
+	 * The number of columns in the represented matrix.
+	 */
+	private int columns;
+
+	/**
+	 * Representation of the matrix, this array will be of size n*m.
+	 */
+	private ArrayList<Number> values;
+	
+	/**
+	 * Construct a new SlowMatrix with the given number of rows and columns.
+	 * This matrix will have each element set to the input 'Value'.
+	 * @param Rows The number of rows.
+	 * @param Columns Then number of columns.
+	 * @param Value The initial value to set each element of the matrix to.
+	 */
+	public SlowMatrix(int Rows, int Columns, Number Value) {
+		rows = Rows;
+		columns = Columns;
+		
+		values = new ArrayList<Number>();
+		for (int x=0; x<Rows*Columns; x++) {
+			values.add(Value);
+		}
+	}
+
+	@Override
+	public IMatrix subMatrix(int upperLeftRow, int upperLeftCol, int lowerRightRow, int lowerRightCol)
+			throws IllegalArgumentException {
+		int rows = lowerRightRow - upperLeftRow + 1;
+		int columns = lowerRightCol - upperLeftCol + 1;
+		SlowMatrix ret = new SlowMatrix(rows, columns, 0);
+		
+		for (int r=0; r<rows; r++) {
+			for (int c=0; c<columns; c++) {
+				Number val = this.getElement(upperLeftRow + r, upperLeftCol + c);
+				ret.setElement(r, c, val);
+			}
+		}
+
+		return ret;
+	}
+
+	@Override
+	public void setElement(int row, int col, Number val) throws IllegalArgumentException {
+		values.set(positionToIndex(row, col), val); // positionToIndex will throw the potential error.
+	}
+
+	@Override
+	public Number getElement(int row, int col) throws IllegalArgumentException {
+		return values.get(positionToIndex(row, col)); // positionToIndex will throw the potential error.
+	}
+
+	@Override
+	public IMatrix multiply(IMatrix mat) throws IllegalArgumentException {
+		// Really awful way of counting the columns of mat. But I don't really know any other way.
+		int matcol = -1;
+		try {
+			while (true)
+				mat.getElement(0, ++matcol);
+		} catch (IllegalArgumentException e) { }
+		
+		SlowMatrix ret = new SlowMatrix(this.rows, matcol, 0);
+		for (int r=0; r<this.rows; r++) {
+			for (int c=0; c<matcol; c++) {
+				//
+			}
+		}
+		
+		return ret;
+	}
+
+	@Override
+	public IMatrix add(IMatrix mat) throws IllegalArgumentException {
+		SlowMatrix ret = new SlowMatrix(this.rows, this.columns, 0);
+		for (int r=0; r<this.rows; r++) {
+			for (int c=0; c<this.columns; c++) {
+				// If there is a dimension mismatch, this will return an error for us.
+				Number sum = this.getElement(r, c).doubleValue() + mat.getElement(r, c).doubleValue();
+				ret.setElement(r, c, sum);
+			}
+		}
+
+		return ret;
+	}
+
+	/**
+	 * Convert the input row & column to an index into our 'values' array.
+	 * @param row The row to be queried for.
+	 * @param col The column to be queried for.
+	 * @return The index of the input row and column in our 'values' array.
+	 */
+	private int positionToIndex(int row, int col) throws IllegalArgumentException {
+		if (row < 0 || row >= this.rows || col < 0 || col >= this.columns) {
+			throw new IllegalArgumentException();
+		}
+
+		return row * columns + col;
+	}
+
+	@Override
+	public void execute() {
+		this.multiply(this);
+	}
+}

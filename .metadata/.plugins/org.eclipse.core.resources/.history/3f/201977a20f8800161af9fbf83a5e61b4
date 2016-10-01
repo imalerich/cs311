@@ -1,0 +1,10 @@
+package Tests;
+
+import cs311.hw4.SlowMatrix;
+
+public class Main {
+
+	public Main() {
+		SlowMatrix m = new SlowMatrix(4, 4, 1);
+	}
+}

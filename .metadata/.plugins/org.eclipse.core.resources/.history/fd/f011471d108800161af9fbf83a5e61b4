@@ -1,0 +1,15 @@
+package Tests;
+
+import cs311.hw4.SlowMatrix;
+
+public class Main {
+
+	public static void main(String[] args) {
+		SlowMatrix m = new SlowMatrix(4, 4, 0);
+		SlowMatrix i = SlowMatrix.Identity(4);
+		
+		System.out.println(m);
+		System.out.println(i);
+		System.out.println(m.multiply(i));
+	}
+}

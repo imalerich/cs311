@@ -1,0 +1,25 @@
+package cs311.hw4;
+
+import java.util.List;
+
+public class MeasureTimeComplexity implements IMeasureTimeComplexity {
+
+	@Override
+	public int normalize(IMeasurable m, long timeInMilliseconds) {
+		int count = 0;
+		long start = System.nanoTime();
+		for (; time < timeInMilliseconds; count++) {
+			m.execute();
+		}
+
+		return count;
+	}
+
+	@Override
+	public List<? extends IResult> measure(IMeasureFactory factory, int nmeasures, int startsize, int endsize,
+			int stepsize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

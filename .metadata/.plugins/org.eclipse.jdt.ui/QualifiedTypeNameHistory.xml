@@ -6,4 +6,12 @@
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="cs311.hw4.IMeasurable"/>
+<fullyQualifiedTypeName name="javax.activity.InvalidActivityException"/>
+<fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
+<fullyQualifiedTypeName name="cs311.hw4.SlowMatrix"/>
+<fullyQualifiedTypeName name="cs311.hw4.MeasureTimeComplexity"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="cs311.hw4.IMeasureFactory"/>
+<fullyQualifiedTypeName name="cs311.hw4.IResult"/>
 </qualifiedTypeNameHistroy>
