@@ -8,7 +8,6 @@
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="javax.activity.InvalidActivityException"/>
 <fullyQualifiedTypeName name="cs311.hw4.SlowMatrix"/>
-<fullyQualifiedTypeName name="cs311.hw4.MeasureTimeComplexity"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="cs311.hw4.IMeasureFactory"/>
 <fullyQualifiedTypeName name="cs311.hw4.IResult"/>
@@ -16,4 +15,7 @@
 <fullyQualifiedTypeName name="cs311.hw4.Result"/>
 <fullyQualifiedTypeName name="Tests.Main"/>
 <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
+<fullyQualifiedTypeName name="cs311.hw4.MeasureTimeComplexity"/>
+<fullyQualifiedTypeName name="cs311.hw4.SlowMatrixFactory"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

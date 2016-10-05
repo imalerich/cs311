@@ -48,7 +48,7 @@ public class MeasureTimeComplexity implements IMeasureTimeComplexity {
 
 class Result implements IResult {
 	/**
-	 * The size of the matrix used to compute this result.
+	 * The number of measurements that were made to produce this result.
 	 */
 	private int size;
 	

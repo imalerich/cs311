@@ -200,12 +200,11 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 	 * @return The number of columns in mat.
 	 */
 	private int numColumns(IMatrix mat) {
-		// If mat is a SlowMatrix this is easy.
 		if (mat instanceof SlowMatrix) {
 			return ((SlowMatrix) mat).columns;
 		}
 
-		// Else here is a really awful way of counting the columns of mat if we don't know the type.
+		// Really awful way of counting the columns of mat if we don't know the type.
 		int col = -1;
 		try {
 			while (true)
@@ -221,12 +220,11 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 	 * @return The number of rows in mat.
 	 */
 	private int numRows(IMatrix mat) {
-		// If mat is a SlowMatrix this is easy.
 		if (mat instanceof SlowMatrix) {
-			return ((SlowMatrix) mat).rows;
+			return ((SlowMatrix) mat).columns;
 		}
 
-		// Else here is a really awful way of counting the columns of mat if we don't know the type.
+		// Really awful way of counting the columns of mat if we don't know the type.
 		int row = -1;
 		try {
 			while (true)

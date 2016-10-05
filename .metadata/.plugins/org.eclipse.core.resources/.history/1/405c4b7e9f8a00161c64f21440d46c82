@@ -30,7 +30,7 @@ public class MeasureTimeComplexity implements IMeasureTimeComplexity {
 			}
 
 			long time = (System.nanoTime() - start) / NANO_PER_MILLI_SECOND;
-			results.add(new Result(s, time));
+			results.add(new Result(nmeasures, time));
 		}
 
 		return results;
@@ -48,7 +48,7 @@ public class MeasureTimeComplexity implements IMeasureTimeComplexity {
 
 class Result implements IResult {
 	/**
-	 * The size of the matrix used to compute this result.
+	 * The number of measurements that were made to produce this result.
 	 */
 	private int size;
 	
