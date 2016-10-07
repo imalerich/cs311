@@ -191,8 +191,7 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 
 	@Override
 	public void execute() {
-//		this.multiply(this);
-		this.add(this);
+		this.multiply(this);
 	}
 	
 	/**

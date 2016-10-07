@@ -32,8 +32,8 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 		rows = Rows;
 		columns = Columns;
 		
-		values = new ArrayList<Number>();
-		for (int x=0; x<Rows*Columns; x++) {
+		values = new ArrayList<Number>(rows * columns);
+		for (int i=0; i<rows*columns; i++) {
 			values.add(Value);
 		}
 	}
@@ -46,7 +46,15 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 	 * @throws InvalidActivityException The number of input values is not a perfect square.
 	 */
 	public SlowMatrix(int[] Values) throws IllegalArgumentException {
-		columns = rows = Math.sqrt(Values.length);
+		if (Math.sqrt(Values.length) % 1 != 0) {
+			throw new IllegalArgumentException("Provided values is not a perfect square!");
+		}
+
+		columns = rows = (int)Math.sqrt(Values.length);
+		values = new ArrayList<Number>(rows * columns);
+		for (int i=0; i<rows*columns; i++) {
+			values.add(Values[i]);
+		}
 	}
 	
 	/**
@@ -107,13 +115,15 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 
 	@Override
 	public IMatrix multiply(IMatrix mat) throws IllegalArgumentException {
-		// Really awful way of counting the columns of mat. But I don't really know any other way.
-		int matcol = -1;
-		try {
-			while (true)
-				mat.getElement(0, ++matcol);
-		} catch (IllegalArgumentException e) { }
+		int matcol = numColumns(mat);
+		int matrow = numRows(mat);
 		
+		// The number of columns in this matrix needs to match the number of rows in mat.
+		if (this.columns != matrow) {
+			throw new IllegalArgumentException("this.columns does not match mat.rows!");
+		}
+		
+		// We are all set to perform the actual multiplication.
 		SlowMatrix ret = new SlowMatrix(this.rows, matcol, 0);
 		for (int r=0; r<this.rows; r++) {
 			for (int c=0; c<matcol; c++) {
@@ -132,6 +142,13 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 
 	@Override
 	public IMatrix add(IMatrix mat) throws IllegalArgumentException {
+		int matcol = numColumns(mat);
+		int matrow = numRows(mat);
+		
+		if (matcol != this.columns || matrow != this.rows) {
+			throw new IllegalArgumentException("Addition is not defined for matrixes with mismatching sizes!");
+		}
+
 		SlowMatrix ret = new SlowMatrix(this.rows, this.columns, 0);
 		for (int r=0; r<this.rows; r++) {
 			for (int c=0; c<this.columns; c++) {
@@ -152,7 +169,7 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 	 */
 	private int positionToIndex(int row, int col) throws IllegalArgumentException {
 		if (row < 0 || row >= this.rows || col < 0 || col >= this.columns) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Provided row and/or col is out of bounds for the given matrix!");
 		}
 
 		return row * columns + col;
@@ -174,6 +191,49 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 
 	@Override
 	public void execute() {
-		this.multiply(this);
+//		this.multiply(this);
+		this.add(this);
+	}
+	
+	/**
+	 * Computes the number of columns in the input matrix interface.
+	 * @param mat The matrix to compute the columns for.
+	 * @return The number of columns in mat.
+	 */
+	private int numColumns(IMatrix mat) {
+		// If mat is a SlowMatrix this is easy.
+		if (mat instanceof SlowMatrix) {
+			return ((SlowMatrix) mat).columns;
+		}
+
+		// Else here is a really awful way of counting the columns of mat if we don't know the type.
+		int col = -1;
+		try {
+			while (true)
+				mat.getElement(0, ++col);
+		} catch (IllegalArgumentException e) { }
+
+		return col;
+	}
+	
+	/**
+	 * Computes the number of rows in the input matrix interface.
+	 * @param mat The matrix to compute the rows for.
+	 * @return The number of rows in mat.
+	 */
+	private int numRows(IMatrix mat) {
+		// If mat is a SlowMatrix this is easy.
+		if (mat instanceof SlowMatrix) {
+			return ((SlowMatrix) mat).rows;
+		}
+
+		// Else here is a really awful way of counting the columns of mat if we don't know the type.
+		int row = -1;
+		try {
+			while (true)
+				mat.getElement(++row, 0);
+		} catch (IllegalArgumentException e) { }
+		
+		return row;
 	}
 }
