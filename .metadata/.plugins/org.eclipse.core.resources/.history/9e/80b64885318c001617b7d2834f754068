@@ -18,8 +18,9 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 
 	/**
 	 * Representation of the matrix, this array will be of size n*m.
+	 * Using single precision floating point just for the sake of speed.
 	 */
-	private ArrayList<Number> values;
+	private ArrayList<Float> values;
 	
 	/**
 	 * Construct a new SlowMatrix with the given number of rows and columns.
@@ -32,9 +33,10 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 		rows = Rows;
 		columns = Columns;
 		
-		values = new ArrayList<Number>(rows * columns);
+		// Allocate with enough space that way we will never need to resize.
+		values = new ArrayList<Float>(columns * rows);
 		for (int i=0; i<rows*columns; i++) {
-			values.add(Value);
+			values.add(Value.floatValue());
 		}
 	}
 	
@@ -45,13 +47,13 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 	 * @param Values The list of values to use to construct this square matrix.
 	 * @throws InvalidActivityException The number of input values is not a perfect square.
 	 */
-	public SlowMatrix(int[] Values) throws IllegalArgumentException {
+	public SlowMatrix(float[] Values) throws IllegalArgumentException {
 		if (Math.sqrt(Values.length) % 1 != 0) {
 			throw new IllegalArgumentException("Provided values is not a perfect square!");
 		}
 
 		columns = rows = (int)Math.sqrt(Values.length);
-		values = new ArrayList<Number>(rows * columns);
+		values = new ArrayList<Float>(columns * rows);
 		for (int i=0; i<rows*columns; i++) {
 			values.add(Values[i]);
 		}
@@ -81,7 +83,7 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 	public static SlowMatrix Random(int N, int Max) {
 		SlowMatrix r = new SlowMatrix(N, N, 0);
 		for (int i=0; i<N*N; i++) {
-			r.values.set(i, Math.floor(Math.random() * Max));
+			r.values.set(i, (float)Math.floor(Math.random() * Max));
 		}
 		return r;
 	}
@@ -105,7 +107,7 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 
 	@Override
 	public void setElement(int row, int col, Number val) throws IllegalArgumentException {
-		values.set(positionToIndex(row, col), val); // positionToIndex will throw the potential error.
+		values.set(positionToIndex(row, col), val.floatValue()); // positionToIndex will throw the potential error.
 	}
 
 	@Override
@@ -115,18 +117,18 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 
 	@Override
 	public IMatrix multiply(IMatrix mat) throws IllegalArgumentException {
-		int matcol = numColumns(mat);
-		int matrow = numRows(mat);
-		
-		// The number of columns in this matrix needs to match the number of rows in mat.
-		if (this.columns != matrow) {
-			throw new IllegalArgumentException("this.columns does not match mat.rows!");
-		}
+//		int matcol = numColumns(mat);
+//		int matrow = numRows(mat);
+//		
+//		// The number of columns in this matrix needs to match the number of rows in mat.
+//		if (this.columns != matrow) {
+//			throw new IllegalArgumentException("this.columns does not match mat.rows!");
+//		}
 		
 		// We are all set to perform the actual multiplication.
-		SlowMatrix ret = new SlowMatrix(this.rows, matcol, 0);
+		SlowMatrix ret = new SlowMatrix(this.rows, this.columns, 0);
 		for (int r=0; r<this.rows; r++) {
-			for (int c=0; c<matcol; c++) {
+			for (int c=0; c<this.columns; c++) {
 				// Need to compute this.row (dot) mat.column.
 				double dot = 0;
 				for (int i=0; i<this.columns; i++) {
@@ -191,8 +193,7 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 
 	@Override
 	public void execute() {
-//		this.multiply(this);
-		this.add(this);
+		this.multiply(this);
 	}
 	
 	/**

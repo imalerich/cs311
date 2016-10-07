@@ -19,7 +19,7 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 	/**
 	 * Representation of the matrix, this array will be of size n*m.
 	 */
-	private ArrayList<Number> values;
+	private ArrayList<Float> values;
 	
 	/**
 	 * Construct a new SlowMatrix with the given number of rows and columns.
@@ -32,9 +32,9 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 		rows = Rows;
 		columns = Columns;
 		
-		values = new ArrayList<Number>(rows * columns);
+		values = new ArrayList<Float>();
 		for (int i=0; i<rows*columns; i++) {
-			values.add(Value);
+			values.add(Value.floatValue());
 		}
 	}
 	
@@ -45,13 +45,13 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 	 * @param Values The list of values to use to construct this square matrix.
 	 * @throws InvalidActivityException The number of input values is not a perfect square.
 	 */
-	public SlowMatrix(int[] Values) throws IllegalArgumentException {
+	public SlowMatrix(float[] Values) throws IllegalArgumentException {
 		if (Math.sqrt(Values.length) % 1 != 0) {
 			throw new IllegalArgumentException("Provided values is not a perfect square!");
 		}
 
 		columns = rows = (int)Math.sqrt(Values.length);
-		values = new ArrayList<Number>(rows * columns);
+		values = new ArrayList<Float>();
 		for (int i=0; i<rows*columns; i++) {
 			values.add(Values[i]);
 		}
@@ -191,8 +191,7 @@ public class SlowMatrix implements IMatrix, IMeasurable {
 
 	@Override
 	public void execute() {
-//		this.multiply(this);
-		this.add(this);
+		this.multiply(this);
 	}
 	
 	/**

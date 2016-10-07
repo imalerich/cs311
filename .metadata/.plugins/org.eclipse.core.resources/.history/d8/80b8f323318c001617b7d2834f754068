@@ -20,7 +20,7 @@ public class MeasureTimeComplexity implements IMeasureTimeComplexity {
 
 	@Override
 	public List<? extends IResult> measure(IMeasureFactory factory, int nmeasures, int startsize, int endsize, int stepsize) {
-		ArrayList<Result> results = new ArrayList<Result>();
+		ArrayList<Result> results = new ArrayList<Result>((endsize - startsize)/stepsize + 1);
 
 		for (int s=startsize; s<=endsize; s+=stepsize) {
 			IMeasurable m = factory.createRandom(s);

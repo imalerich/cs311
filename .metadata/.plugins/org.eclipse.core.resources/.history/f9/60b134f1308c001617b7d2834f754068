@@ -10,7 +10,7 @@ public class MeasureTimeComplexity implements IMeasureTimeComplexity {
 	@Override
 	public int normalize(IMeasurable m, long timeInMilliseconds) {
 		int count = 0;
-		final long timeInNanoseconds = timeInMilliseconds * NANO_PER_MILLI_SECOND;
+		long timeInNanoseconds = timeInMilliseconds * NANO_PER_MILLI_SECOND;
 		for (long start = System.nanoTime(); currentTime(start) < timeInNanoseconds; count++) {
 			m.execute();
 		}
