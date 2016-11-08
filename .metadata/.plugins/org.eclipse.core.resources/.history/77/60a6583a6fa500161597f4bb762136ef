@@ -236,7 +236,7 @@ public class Graph<V, E> implements IGraph<V, E> {
 		}
 		
 		// Return the edges set as a List.
-		return new ArrayList<IGraph.Edge<E>>(ret);
+		return new ArrayList<IGraph.Vertex<V>>(ret);
 	}
 
 	@Override

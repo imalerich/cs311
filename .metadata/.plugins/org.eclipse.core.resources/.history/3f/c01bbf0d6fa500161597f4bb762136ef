@@ -214,7 +214,7 @@ public class Graph<V, E> implements IGraph<V, E> {
 
 	@Override
 	public List<IGraph.Edge<E>> getEdges() {
-		HashSet<IGraph.Edge<E>> ret = new HashSet<IGraph.Edge<E>>();
+		ArrayList<IGraph.Edge<E>> ret = new ArrayList<IGraph.Edge<E>>();
 	
 		// Iterate over all sets of edges.
 		// Note that if this graph is undirected, than we don't need to 
@@ -224,19 +224,18 @@ public class Graph<V, E> implements IGraph<V, E> {
 				// We can add all the edges we want.
 				ret.addAll(s);
 			} else {
-				// The set will already check for duplicates, but does not consider inverse edges duplicates,
-				// we will need to filter them out manually here.
+				// We will need to make sure we don't run into any duplicates.
 				for (IGraph.Edge<E> e : s) {
 					IGraph.Edge<E> inverse = new IGraph.Edge<E>(e.getVertexName2(), e.getVertexName1(), null);
-					if (!ret.contains(inverse)) {
+					// The returned array should not contain the edge OR it's inverse in order to be added to the returned list.
+					if (!ret.contains(e) && !ret.contains(inverse)) {
 						ret.add(e);
 					}
 				}
 			}
 		}
 		
-		// Return the edges set as a List.
-		return new ArrayList<IGraph.Edge<E>>(ret);
+		return ret;
 	}
 
 	@Override
@@ -264,7 +263,6 @@ public class Graph<V, E> implements IGraph<V, E> {
 			}
 		}
 
-		// Return the neighbors set as a List.
 		return new ArrayList<IGraph.Vertex<V>>(ret);
 	}
 }
