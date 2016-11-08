@@ -1,0 +1,199 @@
+package cs311.hw7.graph;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Graph implements IGraph {
+
+	/**
+	 * Representation of a Vertex object, including the vertex name
+	 * and optionally the vertex data object.
+	 * @author Ian Malerich
+	 */
+	private class Vertex {
+		/**
+		 * Construct a new vertex using the given name.
+		 * The data property of the vertex will be left as 'null'.
+		 * @param Name
+		 */
+		Vertex(String Name) {
+			name = Name;
+		}
+		
+		/**
+		 * Construct a new vertex using the given name and data object.
+		 * @param Name The given name for this vertex.
+		 * @param Data The data to be used for this vertex.
+		 */
+		Vertex(String Name, Object Data) {
+			name = Name;
+			data = Data;
+		}
+
+		/**
+		 * The name of this vertex as given by the addVertex method.
+		 */
+		public String name;
+		/**
+		 * The object data for this vertex if present, else null.
+		 */
+		public Object data;
+	}
+	
+	/**
+	 * Representation of an Edge object, including the name of the to and from
+	 * vertices. If the graph is directed this ordering will be enforced, if the graph
+	 * is undirected, the ordering of the first and second vertex will not matter.
+	 * @author Ian Malerich
+	 */
+	private class Edge {
+		/**
+		 * Constructs a new edge object with the given verties.
+		 * Object data for this edge will be left as null with this constructor.
+		 * @param FirstVertex The name of the first vertex in this edge.
+		 * @param SecondVertex The name of the second vertex in this edge.
+		 */
+		Edge(String FirstVertex, String SecondVertex) {
+			firstVertex = FirstVertex;
+			secondVertex = SecondVertex;
+		}
+		
+		/**
+		 * Construct a new edge using the given vertices and object data.
+		 * @param FirstVertex The name of the first vertex in this edge.
+		 * @param SecondVertex The name of the second vertex in this edge.
+		 * @param Data The data to be used for this edge.
+		 */
+		Edge(String FirstVertex, String SecondVertex, Object Data) {
+			firstVertex = FirstVertex;
+			secondVertex = SecondVertex;
+			data = Data;
+		}
+		
+		/**
+		 * The 'from' vertex for this edge.
+		 */
+		public String firstVertex;
+		/**
+		 * The 'to' vertex for this edge.
+		 */
+		public String secondVertex;
+		/**
+		 * Optional object data for this edge.
+		 */
+		public Object data;
+	}
+	
+	/**
+	 * List of all vertices which make up this graph.
+	 */
+	private ArrayList<Vertex> vertices;
+	
+	/**
+	 * List of all edges which make up this graph.
+	 */
+	private ArrayList<Edge> edges;
+	
+	/***
+	 * True if this graph is currently in directed mode, False otherwise.
+	 */
+	private boolean directed;
+
+	@Override
+	public void setDirectedGraph() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setUndirectedGraph() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isDirectedGraph() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void addVertex(String vertexName) throws DuplicateVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addVertex(String vertexName, Object vertexData) throws DuplicateVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addEdge(String vertex1, String vertex2) throws DuplicateEdgeException, NoSuchVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addEdge(String vertex1, String vertex2, Object edgeData)
+			throws DuplicateEdgeException, NoSuchVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object getVertexData(String vertexName) throws NoSuchVertexException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setVertexData(String vertexName, Object vertexData) throws NoSuchVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object getEdgeData(String vertex1, String vertex2) throws NoSuchVertexException, NoSuchEdgeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setEdgeData(String vertex1, String vertex2, Object edgeData)
+			throws NoSuchVertexException, NoSuchEdgeException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Vertex getVertex(String VertexName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Edge getEdge(String vertexName1, String vertexName2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List getVertices() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List getEdges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List getNeighbors(String vertex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

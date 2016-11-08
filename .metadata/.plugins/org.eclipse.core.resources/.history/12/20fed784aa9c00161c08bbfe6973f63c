@@ -1,0 +1,25 @@
+
+package cs311.hw6.graphalgorithms;
+
+import cs311.graph.IGraph;
+import cs311.graph.IGraph.Vertex;
+import java.util.List;
+
+
+public class GraphAlgorithms
+{
+    public static <V, E> List<Vertex<V>> TopologicalSort( IGraph<V, E> g)
+    {
+        
+    }
+    
+    public static <V, E> List<List<Vertex>> AllTopologicalSort( IGraph<V, E> g )
+    {
+        
+    }
+    
+    public static <V, E extends IWeight> IGraph Kruscal(String start, E weight )
+    {
+        
+    }
+}

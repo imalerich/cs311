@@ -1,0 +1,137 @@
+package cs311.hw7.graph;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Graph<V, E> implements IGraph {
+	
+	/**
+	 * List of all vertices which make up this graph.
+	 */
+	private ArrayList<IGraph.Vertex<V>> vertices;
+	
+	/**
+	 * List of all edges which make up this graph.
+	 */
+	private ArrayList<IGraph.Edge<E>> edges;
+	
+	/***
+	 * True if this graph is currently in directed mode, False otherwise.
+	 */
+	private boolean directed;
+	
+	/**
+	 * Constructs a new empty directed graph.
+	 */
+	Graph() {
+		vertices = new ArrayList<IGraph.Vertex<V>>();
+		edges = new ArrayList<IGraph.Edge<E>>();
+		directed = true;
+	}
+	
+	/**
+	 * Constructs a new empty graph.
+	 * @param Directed If true the resulting graph will be directed, if false it will be undirected.
+	 */
+	Graph(boolean Directed) {
+		vertices = new ArrayList<IGraph.Vertex<V>>();
+		edges = new ArrayList<IGraph.Edge<E>>();
+		directed = Directed;
+	}
+
+	@Override
+	public void setDirectedGraph() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setUndirectedGraph() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isDirectedGraph() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void addVertex(String vertexName) throws DuplicateVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addVertex(String vertexName, Object vertexData) throws DuplicateVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addEdge(String vertex1, String vertex2) throws DuplicateEdgeException, NoSuchVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addEdge(String vertex1, String vertex2, Object edgeData)
+			throws DuplicateEdgeException, NoSuchVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object getVertexData(String vertexName) throws NoSuchVertexException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setVertexData(String vertexName, Object vertexData) throws NoSuchVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object getEdgeData(String vertex1, String vertex2) throws NoSuchVertexException, NoSuchEdgeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setEdgeData(String vertex1, String vertex2, Object edgeData)
+			throws NoSuchVertexException, NoSuchEdgeException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Vertex<V> getVertex(String VertexName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Edge<E> getEdge(String vertexName1, String vertexName2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<V> getVertices() {
+		return vertices;
+	}
+
+	@Override
+	public List<E> getEdges() {
+		return edges;
+	}
+
+	@Override
+	public List getNeighbors(String vertex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

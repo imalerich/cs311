@@ -1,0 +1,41 @@
+package cs311.hw7.graph;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Graph<V, E> implements IGraph {
+	
+	/**
+	 * List of all vertices which make up this graph.
+	 */
+	private ArrayList<IGraph.Vertex<V>> vertices;
+	
+	/**
+	 * List of all edges which make up this graph.
+	 */
+	private ArrayList<IGraph.Edge<E>> edges;
+	
+	/***
+	 * True if this graph is currently in directed mode, False otherwise.
+	 */
+	private boolean directed;
+	
+	/**
+	 * Constructs a new empty directed graph.
+	 */
+	Graph() {
+		vertices = new ArrayList<IGraph.Vertex<V>>();
+		edges = new ArrayList<IGraph.Edge<E>>();
+		directed = true;
+	}
+	
+	/**
+	 * Constructs a new empty graph.
+	 * @param Directed If true the resulting graph will be directed, if false it will be undirected.
+	 */
+	Graph(boolean Directed) {
+		vertices = new ArrayList<IGraph.Vertex<V>>();
+		edges = new ArrayList<IGraph.Edge<E>>();
+		directed = Directed;
+	}
+}

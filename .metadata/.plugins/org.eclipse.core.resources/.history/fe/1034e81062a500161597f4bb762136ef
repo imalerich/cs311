@@ -1,0 +1,144 @@
+package cs311.hw7.graph;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Graph<V, E> implements IGraph<V, E> {
+	
+	/**
+	 * Map of all vertices and their associated edges stored as sets (initially empty).
+	 */
+	private HashMap<IGraph.Vertex<V>, Set<IGraph.Edge<E>>> data;
+	
+	/***
+	 * True if this graph is currently in directed mode, False otherwise.
+	 */
+	private boolean directed;
+	
+	/**
+	 * Constructs a new empty directed graph.
+	 */
+	Graph() {
+		data = new HashMap<IGraph.Vertex<V>, Set<IGraph.Edge<E>>>();
+		directed = true;
+	}
+	
+	/**
+	 * Constructs a new empty graph.
+	 * @param Directed If true the resulting graph will be directed, if false it will be undirected.
+	 */
+	Graph(boolean Directed) {
+		data = new HashMap<IGraph.Vertex<V>, Set<IGraph.Edge<E>>>();
+		directed = Directed;
+	}
+
+	@Override
+	public void setDirectedGraph() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setUndirectedGraph() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isDirectedGraph() {
+		return directed;
+	}
+
+	@Override
+	public void addVertex(String vertexName) throws DuplicateVertexException {
+		IGraph.Vertex<V> v = new IGraph.Vertex<V>(vertexName, null);
+		if (data.containsKey(v)) {
+			throw new DuplicateVertexException();
+		}
+		
+		data.put(v, new HashSet<IGraph.Edge<E>>());
+	}
+
+	@Override
+	public void addVertex(String vertexName, V vertexData) throws DuplicateVertexException {
+		IGraph.Vertex<V> v = new IGraph.Vertex<V>(vertexName, vertexData);
+		if (data.containsKey(v)) {
+			throw new DuplicateVertexException();
+		}
+		
+		data.put(v, new HashSet<IGraph.Edge<E>>());
+	}
+
+	@Override
+	public void addEdge(String vertex1, String vertex2) throws DuplicateEdgeException, NoSuchVertexException {
+		String key = vertex1 + " -> " + vertex2;
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void addEdge(String vertex1, String vertex2, Object edgeData)
+			throws DuplicateEdgeException, NoSuchVertexException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public V getVertexData(String vertexName) throws NoSuchVertexException {
+		if (!vertices.containsKey(vertexName)) {
+			throw new NoSuchVertexException();
+		}
+
+		IGraph.Vertex<V> v = vertices.get(vertexName);
+		return v.getVertexData();
+	}
+
+	@Override
+	public void setVertexData(String vertexName, Object vertexData) throws NoSuchVertexException {
+		if (!vertices.containsKey(vertexName)) {
+			throw new NoSuchVertexException();
+		}
+
+		IGraph.Vertex<V> v = vertices.get(vertexName);
+	}
+
+	@Override
+	public E getEdgeData(String vertex1, String vertex2) throws NoSuchVertexException, NoSuchEdgeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setEdgeData(String vertex1, String vertex2, Object edgeData)
+			throws NoSuchVertexException, NoSuchEdgeException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public IGraph.Vertex<V> getVertex(String VertexName) {
+		return vertices.get(VertexName);
+	}
+
+	@Override
+	public IGraph.Edge<E> getEdge(String vertexName1, String vertexName2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<IGraph.Vertex<V>> getVertices() {
+		return new ArrayList<IGraph.Vertex<V>>(vertices.values());
+	}
+
+	@Override
+	public List<IGraph.Edge<E>> getEdges() {
+		return new ArrayList<IGraph.Edge<E>>(edges.values());
+	}
+
+	@Override
+	public List<IGraph.Vertex<V>> getNeighbors(String vertex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

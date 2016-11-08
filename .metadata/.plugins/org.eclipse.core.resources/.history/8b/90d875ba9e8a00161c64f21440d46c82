@@ -1,8 +1,0 @@
-package cs311.hw4;
-
-public class SlowMatrixTest {
-	public static void main(String[] args) {
-		// 1. Find the number of iterations required to multiply a 2x2 matrix in 2ms.
-		MeasureTimeComplexity t = new MeasureTimeComplexity();
-	}
-}
