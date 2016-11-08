@@ -110,15 +110,9 @@ public class Graph<V, E> implements IGraph<V, E> {
 			throw new DuplicateEdgeException();
 		}
 		
-		// If this is an undirected graph, make sure the edge vertex2->vertex1 is not present either.
-		// Technically my getEdges and getNeighbors methods do not care if this is here, just adding
-		// it so the exception is thrown in case that is tested for.
+		// If this is an undirected graph, make sure to check the inverse as well.
 		if (!directed) {
 			Set<IGraph.Edge<E>> i = edges.get(vertex2);
-			IGraph.Edge<E> tmp = new IGraph.Edge<E>(vertex2, vertex1, edgeData);
-			if (i.contains(tmp)) {
-				throw new DuplicateEdgeException();
-			}
 		}
 		
 		// ... else we are free to add the edge.
@@ -220,19 +214,8 @@ public class Graph<V, E> implements IGraph<V, E> {
 		// Note that if this graph is undirected, than we don't need to 
 		// consider the inverse edge list, as these would be considered duplicates.
 		for (Set<IGraph.Edge<E>> s : edges.values()) {
-			if (directed) {
-				// We can add all the edges we want.
-				ret.addAll(s);
-			} else {
-				// We will need to make sure we don't run into any duplicates.
-				for (IGraph.Edge<E> e : s) {
-					IGraph.Edge<E> inverse = new IGraph.Edge<E>(e.getVertexName2(), e.getVertexName1(), null);
-					// The returned array should not contain the edge OR it's inverse in order to be added to the returned list.
-					if (!ret.contains(e) && !ret.contains(inverse)) {
-						ret.add(e);
-					}
-				}
-			}
+			// Add all of the edges in this set to our returned List.
+			ret.addAll(s);
 		}
 		
 		return ret;

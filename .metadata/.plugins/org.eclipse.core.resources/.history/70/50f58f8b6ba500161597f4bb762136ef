@@ -111,8 +111,6 @@ public class Graph<V, E> implements IGraph<V, E> {
 		}
 		
 		// If this is an undirected graph, make sure the edge vertex2->vertex1 is not present either.
-		// Technically my getEdges and getNeighbors methods do not care if this is here, just adding
-		// it so the exception is thrown in case that is tested for.
 		if (!directed) {
 			Set<IGraph.Edge<E>> i = edges.get(vertex2);
 			IGraph.Edge<E> tmp = new IGraph.Edge<E>(vertex2, vertex1, edgeData);
@@ -226,11 +224,7 @@ public class Graph<V, E> implements IGraph<V, E> {
 			} else {
 				// We will need to make sure we don't run into any duplicates.
 				for (IGraph.Edge<E> e : s) {
-					IGraph.Edge<E> inverse = new IGraph.Edge<E>(e.getVertexName2(), e.getVertexName1(), null);
-					// The returned array should not contain the edge OR it's inverse in order to be added to the returned list.
-					if (!ret.contains(e) && !ret.contains(inverse)) {
-						ret.add(e);
-					}
+					//
 				}
 			}
 		}
