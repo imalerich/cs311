@@ -10,9 +10,6 @@ public class Graph<V, E> implements IGraph<V, E> {
 	
 	/**
 	 * True if this graph is currently in directed mode, False otherwise.
-	 * Note that I am not removing any edges when the graph enters undirected mode.
-	 * Instead these edges which are now considered duplicates will be filtered out on
-	 * the appropriate method calls such as getEdges(...).
 	 */
 	private boolean directed;
 
