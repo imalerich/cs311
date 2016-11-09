@@ -167,17 +167,12 @@ public class MalerichAlgorithmTests {
 
 		test.addEdge("A", "B", new Weight(1.0));
 		
-		// This graph is not fully connected, this will crash if your
-		// priority queue runs out of edges, if you fix that it will
-		// just return the fully connected components in minimum spanning forests.
+		// This graph is not connected, so Kruscal's algorithm will not work here.
+		// In my code I am denoting this by returning null, if you are failing this test
+		// I do not believe they explicitly stated how you're code should behave, 
+		// so I wouldn't worry about it too much.
 		IGraph<Weight, Weight> mst = GraphAlgorithms.Kruscal(test);
-		assertEquals(1, mst.getEdges().size());
-		try {
-			assertNotEquals(null, mst.getEdge("A", "B"));
-		} catch (Exception e) {
-			// In case you are throwing an exception rather than returning null.
-			fail("Unexpected exception thrown.");
-		}
+		assertEquals(null, mst);
 	}
 	
 	@Test public void testKruscal2() {

@@ -230,11 +230,6 @@ public class GraphAlgorithms {
     	int count = 0;
     	final int total = g.getVertices().size();
     	while (count < total-1) {
-    		if (pq.isEmpty()) {
-    			// We do not have a fully connected MST,
-    			// but all of our components are at least fully connected.
-    			break;
-    		}
 
     		// Remove our next edge
     		Edge<E> e = pq.remove();

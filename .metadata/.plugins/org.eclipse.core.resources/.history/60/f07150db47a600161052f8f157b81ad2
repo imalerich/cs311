@@ -171,13 +171,7 @@ public class MalerichAlgorithmTests {
 		// priority queue runs out of edges, if you fix that it will
 		// just return the fully connected components in minimum spanning forests.
 		IGraph<Weight, Weight> mst = GraphAlgorithms.Kruscal(test);
-		assertEquals(1, mst.getEdges().size());
-		try {
-			assertNotEquals(null, mst.getEdge("A", "B"));
-		} catch (Exception e) {
-			// In case you are throwing an exception rather than returning null.
-			fail("Unexpected exception thrown.");
-		}
+		assertEquals(null, mst);
 	}
 	
 	@Test public void testKruscal2() {

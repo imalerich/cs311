@@ -217,7 +217,7 @@ public class MalerichGraphTests {
 		test.addVertex("B", RALPH);
 		
 		try {
-			test.getVertex("C");
+			test.getVertexData("C");
 		} catch (NoSuchVertexException e) {
 			// Test passed.
 			return;
