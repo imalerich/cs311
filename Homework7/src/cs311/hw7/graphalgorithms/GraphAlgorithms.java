@@ -43,7 +43,7 @@ public class GraphAlgorithms {
     	// n will be our current unmarked node.
     	for (Vertex<V> n = selectUnmarked(status, g); n != null; n = selectUnmarked(status, g)) {
     		try {
-				visitVertex(n, status, g, l);
+				procVertex(n, status, g, l);
     		} catch (RuntimeException e) {
     			// Graph is not a DAG, return null.
     			return null;
@@ -60,7 +60,7 @@ public class GraphAlgorithms {
      * @param g Graph containing all vertices to parse.
      * @param l List subset to the topologically sorted list of vertices.
      */
-    private static <V, E> void visitVertex(Vertex<V> n, HashMap<String, Status> s, IGraph<V, E> g, List<Vertex<V>> l) {
+    private static <V, E> void procVertex(Vertex<V> n, HashMap<String, Status> s, IGraph<V, E> g, List<Vertex<V>> l) {
 		if (s.get(n.getVertexName()) == Status.TEMPORARY) {
 			// The graph is not a DAG, return null for failure.
 			throw new RuntimeException();
@@ -69,7 +69,7 @@ public class GraphAlgorithms {
 		if (s.get(n.getVertexName()) == Status.UNVISITED) {
 			s.put(n.getVertexName(), Status.TEMPORARY);
 			for (Vertex<V> m : g.getNeighbors(n.getVertexName())) {
-				visitVertex(m, s, g, l);
+				procVertex(m, s, g, l);
 			}
 			s.put(n.getVertexName(), Status.VISITED);
 			l.add(0, n);
@@ -99,7 +99,80 @@ public class GraphAlgorithms {
      * ---------------------------------------------------------------------------- */
     
     public static <V, E> List<List<Vertex<V>>> AllTopologicalSort(IGraph<V, E> g) {
-        return null;
+    	List<List<Vertex<V>>> all = new ArrayList<List<Vertex<V>>>(); // this will be what we return
+    	List<Vertex<V>> l = new ArrayList<Vertex<V>>(); // this is a temporary working array
+    	
+    	// Create the HashMap representing the marks of our vertices.
+    	HashMap<String, Status> s = new HashMap<String, Status>();
+    	HashMap<String, Integer> i = new HashMap<String, Integer>();
+
+    	for (Vertex<V> v : g.getVertices()) {
+    		// All vertices are initially 'UNVISITED'.
+    		s.put(v.getVertexName(), Status.UNVISITED);
+    		i.put(v.getVertexName(), vertexInDegree(v, g));
+    	}
+    	
+    	// Perform a modified version of Khan's algorithm.
+    	procAllTopoSort(g, l, all, s, i);
+
+        return all;
+    }
+    
+    /**
+     * Brute force method based on Khan's algorithm for finding all possible topological sorts.
+     * @param g The graph we are parsing.
+     * @param l Current working (dirty) topological sort.
+     * @param all Current list of completed topological sorts.
+     * @param s Current status' for all vertices.
+     * @param i InDegree count for ann vertices.
+     */
+    private static <V, E> void procAllTopoSort(IGraph<V, E> g, 
+    		List<Vertex<V>> l, List<List<Vertex<V>>> all,
+    		HashMap<String, Status> s, HashMap<String, Integer> i) {
+    	for (Vertex<V> v : g.getVertices()) {
+    		// If there are no inputs to this vertex and it has not been visited...
+    		if (i.get(v.getVertexName()) == 0 && s.get(v.getVertexName()) == Status.UNVISITED) {
+    			for (Vertex<V> w : g.getNeighbors(v.getVertexName())) {
+    				i.put(w.getVertexName(), i.get(w.getVertexName())-1);
+    			}
+    			
+    			l.add(v);
+    			s.put(v.getVertexName(), Status.VISITED);
+
+    			// Recurse with v set to VISITED.
+    			procAllTopoSort(g, l, all, s, i);
+    			
+    			// Undo the work we did generating this topological sort and continue.
+    			s.put(v.getVertexName(), Status.UNVISITED);
+    			l.remove(l.size()-1);
+    			for (Vertex<V> w : g.getNeighbors(v.getVertexName())) {
+    				i.put(w.getVertexName(), i.get(w.getVertexName())+1);
+    			}
+    		}
+    	}
+    	
+    	if (l.size() == g.getVertices().size()) {
+    		// l is one of the possible results, add it to the output array
+    		all.add(new ArrayList<Vertex<V>>(l));
+    	}
+    }
+    
+    /**
+     * Count the total number of edges going into our vertex v.
+     * This is equal to then number of vertices that are not v
+     * that have v as a neighbor.
+     * @param v Vertex to check for inputs to.
+     * @param g The graph to get edges and vertices from.
+     * @return Total number of edges that go INTO v.
+     */
+    private static <V, E> int vertexInDegree(Vertex<V> v, IGraph<V, E> g) {
+    	int degree = 0;
+    	for (Vertex<V> n : g.getVertices()) {
+    		if (n != v && g.getNeighbors(n.getVertexName()).contains(v)) {
+    			degree++;
+    		}
+    	}
+    	return degree;
     }
     
     /* ----------------------------------------------------------------------------
