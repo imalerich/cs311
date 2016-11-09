@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 import cs311.hw7.graph.IGraph.Vertex;
 import cs311.hw7.graphalgorithms.GraphAlgorithms;
+import cs311.hw7.graphalgorithms.IWeight;
 
 public class MalerichAlgorithmTests {
 
@@ -120,7 +121,7 @@ public class MalerichAlgorithmTests {
 		Graph<String, String> test = new Graph<String, String>();
 		test.setDirectedGraph();
 		
-		final int COUNT = 10;
+		final int COUNT = 5;
 		int fact = 1;
 		for (int i=COUNT; i>1; i--) {
 			fact *= i;
@@ -131,8 +132,67 @@ public class MalerichAlgorithmTests {
 			test.addVertex(String.valueOf(i));
 		}
 		
-		// Number of topological sorts is equal to 10!
+		// Number of topological sorts is equal to 10! (this test takes a while)
 		List<List<Vertex<String>>> res = GraphAlgorithms.AllTopologicalSort(test);
 		assertEquals("There are 10! valid topological sort.", fact, res.size());
+	}
+	
+	@Test public void testKruscal0() {
+		Graph<Weight, Weight> test = new Graph<Weight, Weight>();
+		test.setUndirectedGraph();
+		
+		test.addVertex("A");
+		test.addVertex("B");
+		test.addVertex("C");
+		
+		test.addEdge("A", "B", new Weight(1.0));
+		test.addEdge("A", "C", new Weight(2.0));
+		test.addEdge("B", "C", new Weight(1.0));
+		
+		// The MST is as follows A->B->C
+		IGraph<Weight, Weight> mst = GraphAlgorithms.Kruscal(test);
+		// We should still have 3 vertices after finding the MST.
+		assertEquals(3, mst.getVertices().size());
+		// But we should only have 2 edges.
+		assertEquals(2, mst.getEdges().size());
+	}
+	
+	@Test public void testKruscal1() {
+		Graph<Weight, Weight> test = new Graph<Weight, Weight>();
+		test.setUndirectedGraph();
+
+		test.addVertex("A");
+		test.addVertex("B");
+		test.addVertex("C");
+
+		test.addEdge("A", "B", new Weight(1.0));
+		
+		// This graph is not connected, so Kruscal's algorithm will not work here.
+		// In my code I am denoting this by returning null, if you are failing this test
+		// I do not believe they explicitly stated how you're code should behave, 
+		// so I wouldn't worry about it too much.
+		IGraph<Weight, Weight> mst = GraphAlgorithms.Kruscal(test);
+		assertEquals(null, mst);
+	}
+	
+	/**
+	 * Very simple implementation of the weight interface for testing 
+	 * Kruscal's algorithm.
+	 * @author Ian Malerich
+	 */
+	class Weight implements IWeight {
+		private double w;
+		
+		Weight() {
+			this(0.0);
+		}
+		
+		Weight(Double W) {
+			w = W;
+		}
+
+		@Override public double getWeight() {
+			return w;
+		}
 	}
 }

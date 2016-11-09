@@ -41,7 +41,7 @@ public class Graph<V, E> implements IGraph<V, E> {
 	/**
 	 * Constructs a new empty directed graph.
 	 */
-	Graph() {
+	public Graph() {
 		this(true);
 	}
 	
@@ -49,7 +49,7 @@ public class Graph<V, E> implements IGraph<V, E> {
 	 * Constructs a new empty graph.
 	 * @param Directed If true the resulting graph will be directed, if false it will be undirected.
 	 */
-	Graph(boolean Directed) {
+	public Graph(boolean Directed) {
 		vertices = new HashMap<String, IGraph.Vertex<V>>();
 		edges = new HashMap<String, Set<IGraph.Edge<E>>>();
 		inverseEdges = new HashMap<String, Set<IGraph.Edge<E>>>();

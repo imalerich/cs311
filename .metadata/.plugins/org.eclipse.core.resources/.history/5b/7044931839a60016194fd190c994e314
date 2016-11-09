@@ -1,0 +1,208 @@
+
+package cs311.hw7.graphalgorithms;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+
+import cs311.hw7.graph.Graph;
+import cs311.hw7.graph.IGraph;
+import cs311.hw7.graph.IGraph.Vertex;
+
+
+public class GraphAlgorithms {
+
+    /* ----------------------------------------------------------------------------
+     * Topological Sort(...)
+     * ---------------------------------------------------------------------------- */
+	
+	/**
+	 * Potential statuses a vertex may be in during a Topological Sort.
+	 * @author Ian Malerich
+	 */
+	private enum Status {
+		VISITED, TEMPORARY, UNVISITED
+	}
+
+	/**
+	 * Perform a topological sort on the given graph. If the input graph is not a DAG
+	 * null will be returned, else a sorted array of vertices will be returned to the
+	 * caller.
+	 * @param g Graph whose vertices we wish to sort.
+	 * @return Sorted list of vertices.
+	 */
+    public static <V, E> List<Vertex<V>> TopologicalSort(IGraph<V, E> g) {
+    	ArrayList<Vertex<V>> l = new ArrayList<Vertex<V>>();
+    	
+    	// Create the HashMap representing the marks of our vertices.
+    	HashMap<String, Status> status = new HashMap<String, Status>();
+    	for (Vertex<V> v : g.getVertices()) {
+    		// All vertices are initially 'UNVISITED'.
+    		status.put(v.getVertexName(), Status.UNVISITED);
+    	}
+    	
+    	// n will be our current unmarked node.
+    	for (Vertex<V> n = selectUnmarked(status, g); n != null; n = selectUnmarked(status, g)) {
+    		try {
+				procVertex(n, status, g, l);
+    		} catch (RuntimeException e) {
+    			// Graph is not a DAG, return null.
+    			return null;
+    		}
+    	}
+
+        return l;
+    }
+    
+    /**
+     * Process a vertex in our depth first search based algorithm (recursive implementation).
+     * @param n The current node to parse.
+     * @param s List of current statuses for all nodes in the input graph.
+     * @param g Graph containing all vertices to parse.
+     * @param l List subset to the topologically sorted list of vertices.
+     */
+    private static <V, E> void procVertex(Vertex<V> n, HashMap<String, Status> s, IGraph<V, E> g, List<Vertex<V>> l) {
+		if (s.get(n.getVertexName()) == Status.TEMPORARY) {
+			// The graph is not a DAG, return null for failure.
+			throw new RuntimeException();
+		}
+		
+		if (s.get(n.getVertexName()) == Status.UNVISITED) {
+			s.put(n.getVertexName(), Status.TEMPORARY);
+			for (Vertex<V> m : g.getNeighbors(n.getVertexName())) {
+				procVertex(m, s, g, l);
+			}
+			s.put(n.getVertexName(), Status.VISITED);
+			l.add(0, n);
+		}
+    }
+    
+    /**
+     * Select an unmarked node from the given graph.
+     * @param v List of current status for all vertices in the input graph.
+     * @param g Graph of vertices to pick from.
+     * @return An unvisited vertex, null if no such vertices exist.
+     */
+    private static <V, E> Vertex<V> selectUnmarked(HashMap<String, Status> v, IGraph<V, E> g) {
+    	for (String key : v.keySet()) {
+    		// If the vertex denoted by 'key' has not been visited, return it.
+    		if (v.get(key) == Status.UNVISITED) {
+    			return g.getVertex(key);
+    		}
+    	}
+
+    	// All nodes have been visited return false.
+    	return null;
+    }
+    
+    /* ----------------------------------------------------------------------------
+     * All Topological Sort(...)
+     * ---------------------------------------------------------------------------- */
+    
+    public static <V, E> List<List<Vertex<V>>> AllTopologicalSort(IGraph<V, E> g) {
+    	List<List<Vertex<V>>> all = new ArrayList<List<Vertex<V>>>(); // this will be what we return
+    	List<Vertex<V>> l = new ArrayList<Vertex<V>>(); // this is a temporary working array
+    	
+    	// Create the HashMap representing the marks of our vertices.
+    	HashMap<String, Status> s = new HashMap<String, Status>();
+    	HashMap<String, Integer> i = new HashMap<String, Integer>();
+
+    	for (Vertex<V> v : g.getVertices()) {
+    		// All vertices are initially 'UNVISITED'.
+    		s.put(v.getVertexName(), Status.UNVISITED);
+    		i.put(v.getVertexName(), vertexInDegree(v, g));
+    	}
+    	
+    	// Perform a modified version of Khan's algorithm.
+    	procAllTopoSort(g, l, all, s, i);
+
+        return all;
+    }
+    
+    /**
+     * Brute force method based on Khan's algorithm for finding all possible topological sorts.
+     * @param g The graph we are parsing.
+     * @param l Current working (dirty) topological sort.
+     * @param all Current list of completed topological sorts.
+     * @param s Current status' for all vertices.
+     * @param i InDegree count for ann vertices.
+     */
+    private static <V, E> void procAllTopoSort(IGraph<V, E> g, 
+    		List<Vertex<V>> l, List<List<Vertex<V>>> all,
+    		HashMap<String, Status> s, HashMap<String, Integer> i) {
+    	for (Vertex<V> v : g.getVertices()) {
+    		// If there are no inputs to this vertex and it has not been visited...
+    		if (i.get(v.getVertexName()) == 0 && s.get(v.getVertexName()) == Status.UNVISITED) {
+    			for (Vertex<V> w : g.getNeighbors(v.getVertexName())) {
+    				i.put(w.getVertexName(), i.get(w.getVertexName())-1);
+    			}
+    			
+    			l.add(v);
+    			s.put(v.getVertexName(), Status.VISITED);
+
+    			// Recurse with v set to VISITED.
+    			procAllTopoSort(g, l, all, s, i);
+    			
+    			// Undo the work we did generating this topological sort and continue.
+    			s.put(v.getVertexName(), Status.UNVISITED);
+    			l.remove(l.size()-1);
+    			for (Vertex<V> w : g.getNeighbors(v.getVertexName())) {
+    				i.put(w.getVertexName(), i.get(w.getVertexName())+1);
+    			}
+    		}
+    	}
+    	
+    	if (l.size() == g.getVertices().size()) {
+    		// l is one of the possible results, add it to the output array
+    		all.add(new ArrayList<Vertex<V>>(l));
+    	}
+    }
+    
+    /**
+     * Count the total number of edges going into our vertex v.
+     * This is equal to then number of vertices that are not v
+     * that have v as a neighbor.
+     * @param v Vertex to check for inputs to.
+     * @param g The graph to get edges and vertices from.
+     * @return Total number of edges that go INTO v.
+     */
+    private static <V, E> int vertexInDegree(Vertex<V> v, IGraph<V, E> g) {
+    	int degree = 0;
+    	for (Vertex<V> n : g.getVertices()) {
+    		if (n != v && g.getNeighbors(n.getVertexName()).contains(v)) {
+    			degree++;
+    		}
+    	}
+    	return degree;
+    }
+    
+    /* ----------------------------------------------------------------------------
+     * Kruscal(...)
+     * ---------------------------------------------------------------------------- */
+    
+    public static <V, E extends IWeight> IGraph<V, E> Kruscal(IGraph<V, E> g) {
+    	IGraph<V, E> mst = new Graph<V, E>();
+    	
+    	// The MST needs all vertices, so we can go ahead and add them all.
+    	for (Vertex<V> v : g.getVertices()) {
+    		mst.addVertex(v.getVertexName(), v.getVertexData());
+    	}
+    	
+    	// Create a comparator that will be used to generate the priority queue.
+    	Comparator<E> comp = new Comparator<E>() {
+    		public int compare(E first, E second) {
+    			if (first.getWeight() == second.getWeight()) {
+    				return 0;
+    			} else if (first.getWeight() > second.getWeight()) {
+    				return 1;
+    			} else {
+    				return -1;
+    			}
+    		}
+    	};
+    	PriorityQueue<E> PQ = new PriorityQueue<E>();
+
+        return mst;
+    }
+}
