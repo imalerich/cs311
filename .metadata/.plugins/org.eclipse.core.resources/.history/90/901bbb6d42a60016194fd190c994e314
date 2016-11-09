@@ -202,7 +202,6 @@ public class GraphAlgorithms {
     	g.setUndirectedGraph();
     	// This is our mst, for our in class notes it represents the v' and e' sets.
     	IGraph<V, E> mst = new Graph<V, E>();
-    	mst.setUndirectedGraph();
     	
     	// The MST needs all vertices, so we can go ahead and add them all.
     	for (Vertex<V> v : g.getVertices()) {

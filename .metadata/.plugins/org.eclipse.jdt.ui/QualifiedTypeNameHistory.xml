@@ -16,15 +16,20 @@
 <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
 <fullyQualifiedTypeName name="cs311.hw4.MeasureTimeComplexity"/>
 <fullyQualifiedTypeName name="cs311.hw4.SlowMatrixFactory"/>
-<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.DuplicateVertexException"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.NoSuchVertexException"/>
-<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.NoSuchEdgeException"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="cs311.hw7.graph.IGraph"/>
 <fullyQualifiedTypeName name="org.omg.CORBA.Environment"/>
-<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.DuplicateEdgeException"/>
-<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.Edge"/>
+<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.DuplicateVertexException"/>
 <fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.Vertex"/>
+<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.DuplicateEdgeException"/>
+<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.NoSuchVertexException"/>
+<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.NoSuchEdgeException"/>
+<fullyQualifiedTypeName name="java.nio.channels.SelectableChannel"/>
+<fullyQualifiedTypeName name="java.lang.RuntimeException"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="cs311.hw7.graph.Graph"/>
+<fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.Edge"/>
+<fullyQualifiedTypeName name="cs311.hw7.graphalgorithms.IWeight"/>
+<fullyQualifiedTypeName name="cs311.hw7.graphalgorithms.GraphAlgorithms"/>
 </qualifiedTypeNameHistroy>

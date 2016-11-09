@@ -196,15 +196,15 @@ public class MalerichAlgorithmTests {
 		// Little bit more complicated example, but the solution is obvious.
 		IGraph<Weight, Weight> mst = GraphAlgorithms.Kruscal(test);
 		assertEquals(5, mst.getVertices().size());
-		assertEquals(4, mst.getEdges().size());
+		assertEquals(4, mst.getVertices().size());
 		try {
 			assertNotEquals(null, mst.getEdge("A", "B"));
 			assertNotEquals(null, mst.getEdge("B", "D"));
-			assertNotEquals("Make sure your MST is undirected!", null, mst.getEdge("D", "C"));
+			assertNotEquals(null, mst.getEdge("D", "C"));
 			assertNotEquals(null, mst.getEdge("C", "E"));
 		} catch (Exception e) {
 			// In case you are throwing an exception rather than returning null.
-			fail("Unexpected exception thrown.");
+			fail();
 		}
 	}
 	

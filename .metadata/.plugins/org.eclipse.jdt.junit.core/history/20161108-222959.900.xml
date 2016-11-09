@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="MalerichAlgorithmTests" project="Homework7" tests="4" started="4" failures="0" errors="0" ignored="0">
-  <testsuite name="cs311.hw7.graph.MalerichAlgorithmTests" time="0.002">
-    <testcase name="testAllTopoSort0" classname="cs311.hw7.graph.MalerichAlgorithmTests" time="0.0"/>
-    <testcase name="testTopoSort0" classname="cs311.hw7.graph.MalerichAlgorithmTests" time="0.0"/>
-    <testcase name="testTopoSort1" classname="cs311.hw7.graph.MalerichAlgorithmTests" time="0.0"/>
-    <testcase name="testTopoSort2" classname="cs311.hw7.graph.MalerichAlgorithmTests" time="0.002"/>
-  </testsuite>
-</testrun>

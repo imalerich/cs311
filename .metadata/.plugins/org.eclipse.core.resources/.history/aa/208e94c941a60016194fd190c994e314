@@ -186,26 +186,6 @@ public class MalerichAlgorithmTests {
 		test.addVertex("E");
 		
 		test.addEdge("A", "B", new Weight(1.0));
-		test.addEdge("B", "D", new Weight(3.0));
-		test.addEdge("A", "C", new Weight(30.0));
-		test.addEdge("B", "C", new Weight(50.0));
-		test.addEdge("C", "D", new Weight(2.0));
-		test.addEdge("C", "E", new Weight(1.0));
-		test.addEdge("D", "E", new Weight(45.0));
-		
-		// Little bit more complicated example, but the solution is obvious.
-		IGraph<Weight, Weight> mst = GraphAlgorithms.Kruscal(test);
-		assertEquals(5, mst.getVertices().size());
-		assertEquals(4, mst.getEdges().size());
-		try {
-			assertNotEquals(null, mst.getEdge("A", "B"));
-			assertNotEquals(null, mst.getEdge("B", "D"));
-			assertNotEquals("Make sure your MST is undirected!", null, mst.getEdge("D", "C"));
-			assertNotEquals(null, mst.getEdge("C", "E"));
-		} catch (Exception e) {
-			// In case you are throwing an exception rather than returning null.
-			fail("Unexpected exception thrown.");
-		}
 	}
 	
 	/**

@@ -200,7 +200,7 @@ public class MalerichAlgorithmTests {
 		try {
 			assertNotEquals(null, mst.getEdge("A", "B"));
 			assertNotEquals(null, mst.getEdge("B", "D"));
-			assertNotEquals("Make sure your MST is undirected!", null, mst.getEdge("D", "C"));
+			assertNotEquals(null, mst.getEdge("D", "C"));
 			assertNotEquals(null, mst.getEdge("C", "E"));
 		} catch (Exception e) {
 			// In case you are throwing an exception rather than returning null.
