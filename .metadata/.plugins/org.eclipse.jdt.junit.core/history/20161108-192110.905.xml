@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="MalerichGraphTests" project="Homework7" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="cs311.hw7.graph.MalerichGraphTests" time="0.0">
+    <testcase name="testAddVerticesFailure" classname="cs311.hw7.graph.MalerichGraphTests" time="0.0"/>
+    <testcase name="testNeighborsDirected" classname="cs311.hw7.graph.MalerichGraphTests" time="0.0"/>
+    <testcase name="testNeighborsUndirected" classname="cs311.hw7.graph.MalerichGraphTests" time="0.0"/>
+    <testcase name="testAddVertices" classname="cs311.hw7.graph.MalerichGraphTests" time="0.0"/>
+  </testsuite>
+</testrun>

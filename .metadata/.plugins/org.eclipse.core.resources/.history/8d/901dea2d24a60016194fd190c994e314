@@ -1,0 +1,19 @@
+package cs311.hw7.graphalgorithms;
+
+import org.junit.Test;
+
+public class MalerichAlgorithmTests {
+
+	@Test
+	public void testTopologicalSort() {
+		Graph<String, String> test = new Graph<String, String>();
+		test.setDirectedGraph();
+
+		test.addVertex("A");
+		test.addVertex("B");
+		test.addVertex("C");
+		
+		test.addEdge("A", "B");
+		test.addEdge("A", "C");
+	}
+}

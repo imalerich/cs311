@@ -1,0 +1,27 @@
+package cs311.hw7.graph;
+
+import java.util.List;
+
+import org.junit.Test;
+
+import cs311.hw7.graph.IGraph.Vertex;
+import cs311.hw7.graphalgorithms.GraphAlgorithms;
+
+public class MalerichAlgorithmTests {
+
+	@Test
+	public void testTopologicalSort0() {
+		Graph<String, String> test = new Graph<String, String>();
+		test.setDirectedGraph();
+
+		test.addVertex("A");
+		test.addVertex("B");
+		test.addVertex("C");
+		
+		test.addEdge("A", "B");
+		test.addEdge("B", "C");
+		
+		List<Vertex<String>> l = GraphAlgorithms.<String, String>TopologicalSort(test);
+		ArrayList<String> arr = new ArrayList<String>();
+	}
+}
