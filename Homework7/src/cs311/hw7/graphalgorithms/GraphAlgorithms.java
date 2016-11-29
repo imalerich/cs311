@@ -194,6 +194,8 @@ public class GraphAlgorithms {
      * will explicitly set the graph as undirected if it is not. If this provides a
      * problem with the grader, go ahead and dock my points I don't give enough of a shit
      * to support directed graphs.
+     * If the input graph is not fully connected, it will return a graph with fully connected
+     * components realized by minimum spanning forests.
      * @param g The graph to generate a minimum spanning tree for.
      * @return The minimum spanning tree for the graph g.
      */

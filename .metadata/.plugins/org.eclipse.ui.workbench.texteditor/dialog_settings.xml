@@ -6,20 +6,20 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="VertexData" key="selection"/>
+		<item value="getLength" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="VertexData"/>
-			<item value="g)etVert"/>
-			<item value="getEdge"/>
-			<item value="testAllTopo"/>
-			<item value="vertexdata"/>
-			<item value="testVertexFailure"/>
-			<item value="getNeigh"/>
-			<item value="addEdge"/>
+			<item value="getLength"/>
+			<item value="getLength()"/>
+			<item value="Lincoln Way"/>
+			<item value="addVertex"/>
+			<item value="addVertx"/>
+			<item value="extends IWeight"/>
+			<item value="IWeight"/>
+			<item value="add"/>
 		</list>
 		<list key="replacehistory">
 		</list>

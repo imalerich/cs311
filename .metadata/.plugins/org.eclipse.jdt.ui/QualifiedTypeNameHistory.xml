@@ -4,7 +4,6 @@
 <fullyQualifiedTypeName name="java.util.Random"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="javax.activity.InvalidActivityException"/>
 <fullyQualifiedTypeName name="cs311.hw4.SlowMatrix"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
@@ -32,4 +31,10 @@
 <fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.Edge"/>
 <fullyQualifiedTypeName name="cs311.hw7.graphalgorithms.IWeight"/>
 <fullyQualifiedTypeName name="cs311.hw7.graphalgorithms.GraphAlgorithms"/>
+<fullyQualifiedTypeName name="cs311.hw8.OSMMap"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="javax.lang.model.element.Element"/>
+<fullyQualifiedTypeName name="org.w3c.dom.Element"/>
+<fullyQualifiedTypeName name="cs311.hw8.OSMMap.Location"/>
+<fullyQualifiedTypeName name="cs311.hw8.OSMMap.Street"/>
 </qualifiedTypeNameHistroy>
