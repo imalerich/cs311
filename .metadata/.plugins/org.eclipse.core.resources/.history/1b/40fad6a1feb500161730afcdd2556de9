@@ -219,12 +219,25 @@ public class OSMMap {
 		/**
 		 * The name of this street.
 		 */
-		public String name;
-
+		private String name;
 		/**
 		 * The length of this street.
 		 */
-		public double length;
+		private double length;
+		
+		/**
+		 * @return The name of this street.
+		 */
+		public String GetName() {
+			return name;
+		}
+		
+		/**
+		 * @return The length of this street.
+		 */
+		public double GetLength() {
+			return length;
+		}
 		
 		public Street(String Name, double Length) {
 			name = Name;

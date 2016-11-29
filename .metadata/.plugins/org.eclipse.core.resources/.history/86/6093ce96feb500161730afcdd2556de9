@@ -189,7 +189,7 @@ public class OSMMap {
 	 * This will serve as vertex data for the graph.
 	 * @author Ian Malerich
 	 */
-	public class Location {
+	private class Location {
 		/**
 		 * Latitude of this location as a double value.
 		 */
@@ -215,16 +215,29 @@ public class OSMMap {
 	 * This will serve as edge data for the graph.
 	 * @author Ian Malerich
 	 */
-	public class Street {
+	private class Street {
 		/**
 		 * The name of this street.
 		 */
-		public String name;
-
+		private String name;
 		/**
 		 * The length of this street.
 		 */
-		public double length;
+		private double length;
+		
+		/**
+		 * @return The name of this street.
+		 */
+		public String GetName() {
+			return name;
+		}
+		
+		/**
+		 * @return The length of this street.
+		 */
+		public double GetLength() {
+			return length;
+		}
 		
 		public Street(String Name, double Length) {
 			name = Name;
