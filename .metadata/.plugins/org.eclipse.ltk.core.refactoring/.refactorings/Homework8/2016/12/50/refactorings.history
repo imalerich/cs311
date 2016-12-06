@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;ShortestPathTests.java&apos; to &apos;Homework8/src/cs311.hw8.graphalgorithms&apos;&#x0D;&#x0A;- Original project: &apos;Homework8&apos;&#x0D;&#x0A;- Destination element: &apos;Homework8/src/cs311.hw8.graphalgorithms&apos;&#x0D;&#x0A;- Original element: &apos;cs311.hw8.graph.ShortestPathTests.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="/src&lt;cs311.hw8.graphalgorithms" element1="/src&lt;cs311.hw8.graph{ShortestPathTests.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1480996371010" units="1" version="1.0"/>
+</session>

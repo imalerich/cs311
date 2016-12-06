@@ -211,7 +211,7 @@ public class OSMMap {
 	}
 	
 	/**
-	 * Represents a Streen on the map as a street name and the length of the street.
+	 * Represents a street on the map as a street name and the length of the street.
 	 * This will serve as edge data for the graph.
 	 * @author Ian Malerich
 	 */

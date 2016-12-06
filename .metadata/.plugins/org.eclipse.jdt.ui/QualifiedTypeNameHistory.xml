@@ -25,7 +25,6 @@
 <fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.NoSuchEdgeException"/>
 <fullyQualifiedTypeName name="java.nio.channels.SelectableChannel"/>
 <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="cs311.hw7.graph.Graph"/>
 <fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.Edge"/>
@@ -37,4 +36,6 @@
 <fullyQualifiedTypeName name="org.w3c.dom.Element"/>
 <fullyQualifiedTypeName name="cs311.hw8.OSMMap.Location"/>
 <fullyQualifiedTypeName name="cs311.hw8.OSMMap.Street"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="cs311.hw8.graph.IGraph.Edge"/>
 </qualifiedTypeNameHistroy>
