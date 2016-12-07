@@ -37,5 +37,7 @@
 <fullyQualifiedTypeName name="cs311.hw8.OSMMap.Location"/>
 <fullyQualifiedTypeName name="cs311.hw8.OSMMap.Street"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="cs311.hw8.graph.IGraph.Vertex"/>
 <fullyQualifiedTypeName name="cs311.hw8.graph.IGraph.Edge"/>
 </qualifiedTypeNameHistroy>

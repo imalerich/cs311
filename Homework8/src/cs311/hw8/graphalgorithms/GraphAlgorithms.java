@@ -4,11 +4,9 @@ package cs311.hw8.graphalgorithms;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
 
 import cs311.hw8.graph.Graph;
 import cs311.hw8.graph.IGraph;
@@ -30,51 +28,49 @@ public class GraphAlgorithms {
 	 * @return The list of edges representing the shortest path from 'vertexStart' to 'vertexEnd'.
 	 */
 	public static <V, E extends IWeight> List<Edge<E>> ShortestPath(IGraph<V, E> g, String vertexStart, String vertexEnd) {
-		// Set of Vertices that need to be parsed.
-		Set<IGraph.Vertex<V>> Q = new HashSet<IGraph.Vertex<V>>();
+		List<IGraph.Vertex<V>> vertices = g.getVertices();
 		// Current set of distances from 'vertexStart' to any given vertex.
 		Map<String, Double> dist = new HashMap<String, Double>();
 		// Will contain the previous node (value) in the shortest path to any given node (key).
 		Map<String, String> prev = new HashMap<String, String>();
+		
+		// Set of Vertices that need to be parsed.
+		PriorityQueue<String> Q = new PriorityQueue<String>(vertices.size(),
+			new Comparator<String>() {
+				public int compare(String v1, String v2) {
+					Double d1 = dist.get(v1);
+					Double d2 = dist.get(v2);
+					return d1.compareTo(d2);
+				}
+			}
+		);
 
 		// Initialize the above sets and maps.
-		List<IGraph.Vertex<V>> vertices = g.getVertices();
 		for (IGraph.Vertex<V> v : vertices) {
 			dist.put(v.getVertexName(), Double.MAX_VALUE);
-			Q.add(v);
+			Q.add(v.getVertexName());
 		}
-		
+
 		// The initial distance from the source will be 0.
 		dist.put(vertexStart, 0.0);
 		
-		while (!Q.isEmpty()) {
-			// First we need the vertex in Q with the minimum dist value.
-			double mindist = Double.MAX_VALUE;
-			IGraph.Vertex<V> u = null;
-			for (IGraph.Vertex<V> v : Q) {
-				if (dist.get(v.getVertexName()).doubleValue() < mindist) {
-					mindist = dist.get(v.getVertexName()).doubleValue();
-					u = v;
-				}
-			}
-			
-			Q.remove(u);
-			
+		for (String u = Q.poll(); u != null; u = Q.poll()) {
 			// If u is the target node (vertexEnd) then there is no more work necessary. Break out of the loop.
-			if (u.getVertexName().equals(vertexEnd)) {
+			if (u.equals(vertexEnd)) {
 				break;
 			}
 			
-			// Now for each of the neighbors of our given vertex.
-			List<IGraph.Vertex<V>> neighbors = g.getNeighbors(u.getVertexName());
-			for (IGraph.Vertex<V> n : neighbors) {
-				IGraph.Edge<E> e = g.getEdge(u.getVertexName(), n.getVertexName());
-				double d = dist.get(u.getVertexName()) + e.getEdgeData().getWeight();
+			for (IGraph.Vertex<V> n : g.getNeighbors(u)) {
+				IGraph.Edge<E> e = g.getEdge(u, n.getVertexName());
+				double d = dist.get(u) + e.getEdgeData().getWeight();
 				
 				// Check if this distance is shorter than what we already had.
 				if (d < dist.get(n.getVertexName())) {
 					dist.put(n.getVertexName(), d);
-					prev.put(n.getVertexName(), u.getVertexName());
+					prev.put(n.getVertexName(), u);
+					// Update the priority of this node in our priority queue.
+					Q.remove(n.getVertexName());
+					Q.add(n.getVertexName());
 				}
 			}
 		}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="ShortestRouteTests" project="Homework8" tests="4" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="cs311.hw8.graphalgorithms.ShortestRouteTests" incomplete="true">
+    <testcase name="scubaShopToByAmesHigh" classname="cs311.hw8.graphalgorithms.ShortestRouteTests" time="72.537"/>
+    <testcase name="stCeciliaToIDKWhere" classname="cs311.hw8.graphalgorithms.ShortestRouteTests" incomplete="true"/>
+    <testcase name="rectangle" classname="cs311.hw8.graphalgorithms.ShortestRouteTests" incomplete="true"/>
+    <testcase name="selfLoop" classname="cs311.hw8.graphalgorithms.ShortestRouteTests" incomplete="true"/>
+  </testsuite>
+</testrun>
