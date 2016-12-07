@@ -286,6 +286,7 @@ public class GraphAlgorithms {
      * @return The minimum spanning tree for the graph g.
      */
     public static <V, E extends IWeight> IGraph<V, E> Kruscal(IGraph<V, E> g) {
+    	double start = System.nanoTime();
     	// This methods requires that the graph be undirected, enforce that here.
     	g.setUndirectedGraph();
     	// This is our mst, for our in class notes it represents the v' and e' sets.
@@ -346,6 +347,7 @@ public class GraphAlgorithms {
     		}
     	}
 
+    	System.out.println("total: " + ((System.nanoTime() - start)/1000000000));
         return mst;
     }
 }
