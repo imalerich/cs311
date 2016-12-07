@@ -1,0 +1,19 @@
+package cs311.hw8;
+
+import cs311.hw8.OSMMap.Location;
+import cs311.hw8.OSMMap.Street;
+import cs311.hw8.graph.IGraph;
+import cs311.hw8.graphalgorithms.GraphAlgorithms;
+
+public class PipeDream {
+	public static void main(String[] args) {
+		OSMMap map = new OSMMap();
+		map.LoadMap("AmesMap.txt");
+		IGraph<Location, Street> min = GraphAlgorithms.Kruscal(map.getGraph());
+		
+		double sum = 0.0;
+		for (IGraph.Edge<Street> e : min.getEdges()) {
+			sum += e.getEdgeData().getWeight();
+		}
+	}
+}

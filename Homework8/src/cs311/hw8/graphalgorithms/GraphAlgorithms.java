@@ -292,9 +292,16 @@ public class GraphAlgorithms {
     	IGraph<V, E> mst = new Graph<V, E>();
     	mst.setUndirectedGraph();
     	
+    	// Sets of connected vertices in the MST.
+    	Map<String, Set<String>> S = new HashMap<String, Set<String>>();
+    	
     	// The MST needs all vertices, so we can go ahead and add them all.
     	for (Vertex<V> v : g.getVertices()) {
     		mst.addVertex(v.getVertexName(), v.getVertexData());
+    		// Create our initial set connections.
+    		Set<String> tmp = new HashSet<String>();
+    		tmp.add(v.getVertexName());
+    		S.put(v.getVertexName(), tmp);
     	}
     	
     	// Now generate the priority queue, initially filled with all of the available edges,
@@ -315,74 +322,30 @@ public class GraphAlgorithms {
     	}
     	
     	// There should be #vertices-1 edges in total when we are done.
-    	int count = 0;
     	final int total = g.getVertices().size();
-    	while (count < total-1) {
-    		if (pq.isEmpty()) {
-    			// We do not have a fully connected MST,
-    			// but all of our components are at least fully connected.
-    			break;
-    		}
+    	for (int count = 0; (count < total-1) && (!pq.isEmpty());) {
 
     		// Remove our next edge
     		Edge<E> e = pq.remove();
-    		if (!areVerticesConnected(e.getVertexName1(), e.getVertexName2(), mst)) {
+    		
+    		// Find the set for each
+    		Set<String> s1 = S.get(e.getVertexName1());
+    		Set<String> s2 = S.get(e.getVertexName2());
+    		
+    		// Make sure that our two vertices currently belong to different sets.
+    		if (s1 != s2) {
+    			// Update our MST.
     			mst.addEdge(e.getVertexName1(), e.getVertexName2(), e.getEdgeData());
     			count++;
-    		}
-    	}
-
-        return mst;
-    }
-    
-    /**
-     * Checks if the two vertices are already connected in the input graph g.
-     * This is the case when the component of v0 is equal to the component v1 in 
-     * regards to Kruscal's algoritgm.
-     * @param v0 The name of the first vertex to check.
-     * @param v1 The name of the second vertex to check.
-     * @param g The subset of the mst we are building.
-     * @return True if v0 and v1 are in the same component, False otherwise.
-     */
-    private static <V, E> boolean areVerticesConnected(String v0, String v1, IGraph<V, E> g) {
-    	HashMap<String, Status> status = new HashMap<String, Status>();
-    	for (Vertex<V> v : g.getVertices()) {
-    		status.put(v.getVertexName(), Status.UNVISITED);
-    	}
-    	
-    	// Perform a dfs starting at v0 looking for the vertex v1.
-    	boolean out = dfs(v0, v1, status, g);
-    	return out;
-    }
-    
-    /**
-     * Primary recursive method used by the areVerticesConnected(...) method.
-     * @param current The current node we are looking at.
-     * @param find The node we are looking for.
-     * @param s Current status of searched nodes stored as a map.
-     * @param g The graph we are searching through (will be used for neighbor information).
-     * @return True if there is a path from 'current' to 'find', False otherwise.
-     */
-    private static <V, E> boolean dfs(String current, String find, HashMap<String, Status> s, IGraph<V, E> g) {
-    	// Set the current node as discovered.
-    	s.put(current, Status.VISITED);
-
-    	// Base case - We found what we are looking for.
-    	if (current.equals(find)) {
-    		return true;
-    	}
-    	
-    	// Recurse to undiscovered neighbors.
-    	List<Vertex<V>> n = g.getNeighbors(current);
-    	for (Vertex<V> v : n) {
-    		// If we have not discovered this vertex yet, recurse to it.
-    		if (s.get(v.getVertexName()) == Status.UNVISITED) {
-    			if (dfs(v.getVertexName(), find, s, g)) {
-    				return true;
+    			
+    			// Update the sets.
+    			s1.addAll(s2);
+    			for (String s : s1) {
+    				S.put(s, s1);
     			}
     		}
     	}
 
-    	return false;
+        return mst;
     }
 }
