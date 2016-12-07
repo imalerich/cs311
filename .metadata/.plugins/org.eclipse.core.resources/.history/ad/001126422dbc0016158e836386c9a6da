@@ -357,7 +357,7 @@ public class OSMMap {
 	 * This will serve as edge data for the graph.
 	 * @author Ian Malerich
 	 */
-	public static class Street implements IWeight {
+	public class Street implements IWeight {
 		/**
 		 * The name of this street.
 		 */

@@ -4,11 +4,9 @@ package cs311.hw8.graphalgorithms;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
 
 import cs311.hw8.graph.Graph;
 import cs311.hw8.graph.IGraph;
@@ -35,7 +33,6 @@ public class GraphAlgorithms {
 		Map<String, Double> dist = new HashMap<String, Double>();
 		// Will contain the previous node (value) in the shortest path to any given node (key).
 		Map<String, String> prev = new HashMap<String, String>();
-		Set<String> visited = new HashSet<String>();
 		
 		// Set of Vertices that need to be parsed.
 		PriorityQueue<String> Q = new PriorityQueue<String>(vertices.size(),
@@ -51,11 +48,11 @@ public class GraphAlgorithms {
 		// Initialize the above sets and maps.
 		for (IGraph.Vertex<V> v : vertices) {
 			dist.put(v.getVertexName(), Double.MAX_VALUE);
+			Q.add(v.getVertexName());
 		}
 
 		// The initial distance from the source will be 0.
 		dist.put(vertexStart, 0.0);
-		Q.add(vertexStart);
 		
 		for (String u = Q.poll(); u != null; u = Q.poll()) {
 			// If u is the target node (vertexEnd) then there is no more work necessary. Break out of the loop.
@@ -63,13 +60,7 @@ public class GraphAlgorithms {
 				break;
 			}
 			
-			visited.add(u);
-			
 			for (IGraph.Vertex<V> n : g.getNeighbors(u)) {
-				if (!visited.contains(n.getVertexName()) && !Q.contains(n.getVertexName())) {
-					Q.add(n.getVertexName());
-				}
-
 				IGraph.Edge<E> e = g.getEdge(u, n.getVertexName());
 				double d = dist.get(u) + e.getEdgeData().getWeight();
 				

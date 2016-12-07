@@ -72,6 +72,7 @@ public class GraphAlgorithms {
 
 				IGraph.Edge<E> e = g.getEdge(u, n.getVertexName());
 				double d = dist.get(u) + e.getEdgeData().getWeight();
+				}
 				
 				// Check if this distance is shorter than what we already had.
 				if (d < dist.get(n.getVertexName())) {

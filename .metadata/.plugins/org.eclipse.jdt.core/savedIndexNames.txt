@@ -20,6 +20,5 @@ INDEX VERSION 1.129+C:\Users\ianma\Development\cs311\.metadata\.plugins\org.ecli
 1583927216.index
 1174703897.index
 1847969816.index
-1337115442.index
 188619105.index
 1230056458.index
