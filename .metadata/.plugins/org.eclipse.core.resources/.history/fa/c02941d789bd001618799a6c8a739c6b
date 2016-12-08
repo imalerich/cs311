@@ -898,8 +898,9 @@ public class AllTests
 		assertEquals(4,kgr.getEdges().size());
 		
 		// This will error if the edges don't exist
+		kgr.setUndirectedGraph();
 		kgr.getEdgeData("A","D");
-//		kgr.getEdgeData("A","C");
+		kgr.getEdgeData("A","C");
 		kgr.getEdgeData("A","B");
 		kgr.getEdgeData("E","B");
 	}

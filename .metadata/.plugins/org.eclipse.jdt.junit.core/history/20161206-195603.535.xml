@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="ShortestPathTests" project="Homework8" tests="3" started="3" failures="0" errors="0" ignored="0">
-  <testsuite name="cs311.hw8.graphalgorithms.ShortestPathTests" time="0.002">
-    <testcase name="MediumGraphTest" classname="cs311.hw8.graphalgorithms.ShortestPathTests" time="0.001"/>
-    <testcase name="SimplestTest" classname="cs311.hw8.graphalgorithms.ShortestPathTests" time="0.0"/>
-    <testcase name="AnotherSimpleTest" classname="cs311.hw8.graphalgorithms.ShortestPathTests" time="0.0"/>
-  </testsuite>
-</testrun>

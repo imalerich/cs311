@@ -899,7 +899,7 @@ public class AllTests
 		
 		// This will error if the edges don't exist
 		kgr.getEdgeData("A","D");
-//		kgr.getEdgeData("A","C");
+		kgr.getEdgeData("A","C");
 		kgr.getEdgeData("A","B");
 		kgr.getEdgeData("E","B");
 	}
@@ -1057,7 +1057,9 @@ public class AllTests
 		tpe.add(s);
 		
 		assertEquals(tpe.size(),tpr.size());
-
+		
+		for(int i = 0;i < tpe.size();i++)
+			assertTrue(tpr.contains(tpe.get(i)));
 		assertEquals(tpr, tpe);
 	}
 	

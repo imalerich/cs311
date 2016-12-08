@@ -899,7 +899,7 @@ public class AllTests
 		
 		// This will error if the edges don't exist
 		kgr.getEdgeData("A","D");
-//		kgr.getEdgeData("A","C");
+		kgr.getEdgeData("A","C");
 		kgr.getEdgeData("A","B");
 		kgr.getEdgeData("E","B");
 	}
