@@ -176,6 +176,7 @@ public class Graph<V, E> implements IGraph<V, E> {
 		}
 		
 		// We found the edge, now we need to replace it with an edge containing the correct edge data.
+		edges.get(vertex1).remove(e);
 		edges.get(vertex1).add(new IGraph.Edge<E>(vertex1, vertex2, edgeData));
 	}
 
