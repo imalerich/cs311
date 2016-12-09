@@ -6,29 +6,29 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="" key="selection"/>
+		<item value="Exec" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="Kruscal2"/>
-			<item value="kg3"/>
-			<item value="setEdgeData"/>
-			<item value="setEd"/>
-			<item value="System.out"/>
-			<item value="setVertexData"/>
-			<item value="getEdge"/>
-			<item value="setEdge"/>
+			<item value="Exec"/>
+			<item value="Street"/>
+			<item value="Edge"/>
+			<item value="getVertices"/>
+			<item value="ClosestRoad"/>
+			<item value="Clost"/>
+			<item value="ShortestPath"/>
+			<item value="Location"/>
 		</list>
 		<list key="replacehistory">
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="290" key="DIALOG_WIDTH"/>
-		<item value="1|.SF NS Text|11.0|0|COCOA|1|.SFNSText-Regular" key="DIALOG_FONT_NAME"/>
-		<item value="409" key="DIALOG_HEIGHT"/>
-		<item value="1128" key="DIALOG_X_ORIGIN"/>
-		<item value="190" key="DIALOG_Y_ORIGIN"/>
+		<item value="284" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="391" key="DIALOG_HEIGHT"/>
+		<item value="1412" key="DIALOG_X_ORIGIN"/>
+		<item value="192" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

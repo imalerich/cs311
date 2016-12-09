@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,8 +22,10 @@ import org.xml.sax.SAXException;
 
 import cs311.hw8.graph.Graph;
 import cs311.hw8.graph.IGraph;
+import cs311.hw8.graph.IGraph.Edge;
 import cs311.hw8.graph.IGraph.NoSuchEdgeException;
 import cs311.hw8.graph.IGraph.NoSuchVertexException;
+import cs311.hw8.graph.IGraph.Vertex;
 import cs311.hw8.graphalgorithms.GraphAlgorithms;
 import cs311.hw8.graphalgorithms.IWeight;
 
@@ -31,7 +37,7 @@ public class OSMMap {
 	 */
 	private IGraph<Location, Street> g;
 	
-	public static void main(String[] args) {
+	public static void main2(String[] args) {
 		// Load the provided map of Ames and output the approximate total distance.
 		OSMMap ames = new OSMMap();
 		ames.LoadMap("AmesMap.txt");
@@ -47,7 +53,14 @@ public class OSMMap {
 		List<Location> locs = new ArrayList<Location>();
 		Scanner s = new Scanner(new File(args[1]));
 		while (s.hasNext()) {
-			Scanner line = new Scanner(s.nextLine());
+			// Allow for empty lines of white space.
+			String l = s.nextLine();
+			if (l.isEmpty()) {
+				continue;
+			}
+
+			// Read the input location.
+			Scanner line = new Scanner(l);
 			locs.add( new Location(line.nextDouble(), line.nextDouble()) );
 			line.close();
 		}
@@ -61,15 +74,46 @@ public class OSMMap {
 			List<String> route = map.StreetRoute(map.ShortestRoute(from, to));
 			
 			// Now output the route we found.
+			String lastout = "";
 			for (String street : route) {
-				System.out.println(street);
+				// Don't print repeat streets.
+				if (!street.equals(lastout)) { System.out.println(street); }
+				lastout = street;
 			}
 		}
+	}
+	
+	/**
+	 * Test main method for ApproximateTSP.
+	 * This is a provides a pretty simple tour around campus.
+	 */
+	public static void mainBonus(String[] args) {
+		OSMMap map = new OSMMap();
+		map.LoadMap("AmesMap.txt");
+		
+		List<String> locs = new ArrayList<String>();
+        locs.add(map.ClosestRoad(new Location(42.008106, -93.624803))); // <- This will be the starting point of the tour.
+		locs.add(map.ClosestRoad(new Location(42.033285, -93.621424)));
+        locs.add(map.ClosestRoad(new Location(42.032544, -93.661378)));
+        locs.add(map.ClosestRoad(new Location(42.023538, -93.656915)));
+        locs.add(map.ClosestRoad(new Location(42.019114, -93.648514)));
+        
+        List<String> tour = map.ApproximateTSP(locs);
+        for (int i=1; i<tour.size(); i++) {
+			String from = tour.get(i-1);
+			String to = tour.get(i);
+			List<IGraph.Edge<Street>> edges = GraphAlgorithms.<Location, Street>ShortestPath(map.g, from, to);
+			System.out.println(map.g.getVertexData(edges.get(0).getVertexName1()));
+			for (IGraph.Edge<Street> e : edges) {
+				System.out.println(map.g.getVertexData(e.getVertexName2()));
+			}
+        }
 	}
 	
 	public OSMMap() {
 		// Initialize to an empty graph.
 		g = new Graph<Location, Street>();
+		g.setDirectedGraph();
 	}
 	
 	/**
@@ -79,6 +123,112 @@ public class OSMMap {
 	 */
 	public IGraph<Location, Street> getGraph() {
 		return g;
+	}
+	
+    /* ----------------------------------------------------------------------------
+     * TSP Bonus
+     * ---------------------------------------------------------------------------- */
+	
+	/**
+	 * Approximates the traveling salesperson problem for the given input.
+	 * Generates an approximately optimal path that visits each input vertex at
+	 * least once.
+	 * @param vertices A list of vertex names currently represented in this graph.
+	 * @return An approximate optimal tour of those vertices.
+	 */
+	public List<String> ApproximateTSP(List<String> vertices) {
+		// Create a temporary graph with only the points of interest.
+		IGraph<Location, Street> tmp = new Graph<Location, Street>();
+		tmp.setDirectedGraph();
+		for (String s : vertices) {
+			tmp.addVertex(s, g.getVertexData(s));
+		}
+
+		// Add edges representing the shortest path between every pair of vertices.
+		for (int i=0; i<vertices.size(); i++) {
+			for (int k=0; k<vertices.size(); k++) {
+				// No need to add an edge between vertices that are the same.
+				if (i == k) { continue; }
+
+				// Find the sum over all edges in this shortest path.
+				double length = 0.0;
+				for (IGraph.Edge<Street> e : GraphAlgorithms.ShortestPath(g, vertices.get(i), vertices.get(k))) {
+					length += e.getEdgeData().getWeight();
+				}
+				
+				// Add an edge representing how long it takes to get between these two vertices.
+				tmp.addEdge(vertices.get(i), vertices.get(k), 
+					new Street(vertices.get(i) + "->" + vertices.get(k), length) // Give it a nice name for debug.
+				);
+			}
+		}
+		
+		// The minimum spanning tree will give us the shortest path round these vertices.
+		// Both Kruscal and Primm will work here take your pick.
+//		IGraph<Location, Street> mst = GraphAlgorithms.Kruscal(tmp);
+		IGraph<Location, Street> mst = GraphAlgorithms.Primm(tmp, vertices.get(0));
+		
+		// Get the vertex order by performing a preorder traversal of the mst.
+		List<String> tour = new ArrayList<String>();
+		PreorderTraverse(vertices.get(0), mst, tour);
+		tour.add(vertices.get(0)); // Close the loop.
+
+		/* ----------------------------------------------------------------------------
+		 * MY ALGORITHM RETURNS AN ORDERED LIST OF THE INPUT VERTICES!!!
+		 * If this is not what you want, and you would rather have a list of vertices
+		 * describing the path the tour takes (including vertices not input to this method).
+		 * Uncomment the following block of code!!!
+		 * Thank you!
+		 * If you take off points for this I will have your head.
+		 * ---------------------------------------------------------------------------- */
+//		List<String> fulltour = new ArrayList<String>();
+//        for (int i=1; i<tour.size(); i++) {
+//			String from = tour.get(i-1);
+//			String to = tour.get(i);
+//			List<IGraph.Edge<Street>> edges = GraphAlgorithms.<Location, Street>ShortestPath(g, from, to);
+//			fulltour.add(edges.get(0).getVertexName1());
+//			for (IGraph.Edge<Street> e : edges) {
+//				fulltour.add(e.getVertexName2());
+//			}
+//        }
+//
+//        // Returns a list of vertices describing the path of the tour.
+//        return fulltour;
+		
+        // Returns an ordered list of the input locations.
+		return tour;
+	}
+	
+	/**
+	 * Perform a recursive preorder traversal for the given MST.
+	 * @param current Current node of traversal, starting node on initial call.
+	 * @param mst Minimum spanning tree we will be traversing.
+	 * @param tour Generated tour by traversal, initially an empty list.
+	 */
+	private void PreorderTraverse(String current, IGraph<Location, Street> mst, List<String> tour) {
+		tour.add(current);
+		
+		// Get a priority queue representing the neighbors (closer vertices towards the front).
+		List<Vertex<Location>> neighbors = mst.getNeighbors(current);
+    	PriorityQueue<Vertex<Location>> PQ = new PriorityQueue<Vertex<Location>>(neighbors.size(), 
+			new Comparator<Vertex<Location>>() {
+				public int compare(Vertex<Location> first, Vertex<Location> second) {
+					Double w0 = mst.getEdge(current, first.getVertexName()).getEdgeData().getWeight();
+					Double w1 = mst.getEdge(current, second.getVertexName()).getEdgeData().getWeight();
+					return w0.compareTo(w1);
+				}
+			}
+		);
+		
+    	// Add all of the neighbors to our priority queue.
+		for (Vertex<Location> n : neighbors) { PQ.add(n); }
+		
+		// Recurse to our neighbors (nearer first).
+		for (Vertex<Location> v = PQ.poll(); v != null; v = PQ.poll()) {
+			if (!tour.contains(v.getVertexName())) { // If this vertex has not been added yet...
+				PreorderTraverse(v.getVertexName(), mst, tour); // Add it (and its children) to our tour.
+			}
+		}
 	}
 
     /* ----------------------------------------------------------------------------
@@ -120,6 +270,38 @@ public class OSMMap {
 	}
 	
 	/**
+	 * Finds the shortest route from the 'fromLocation' ending at the 'toLocation'.
+	 * These input locations need not be vertices, instead the nearest vertex to each 
+	 * will be found and used instead.
+	 * @param fromLocation Starting position on the map.
+	 * @param toLocation Destination position on the map.
+	 * @return List of String types that is the sequence of vertex ID names that gives the path.
+	 */
+	public List<String> ShortestRoute(Location fromLocation, Location toLocation) {
+		// Which vertex should we start at?
+		String from = ClosestRoad(fromLocation);
+		// Which vertex should we go to?
+		String to = ClosestRoad(toLocation);
+		// Our shortest path utility will do all the rest of the work.
+		List<IGraph.Edge<Street>> edges = GraphAlgorithms.<Location, Street>ShortestPath(g, from, to);
+
+		// Now convert that return list of edges to the list of stops.
+		List<String> out = new ArrayList<String>();
+		// Add our starting location (this should be 'from').
+		out.add(edges.get(0).getVertexName1());
+		for (IGraph.Edge<Street> e : edges) {
+			// Now add each destination (we've already added the starting point).
+			out.add(e.getVertexName2());
+		}
+		
+		for (String v : out) {
+			Vertex<Location> l = g.getVertex(v);
+		}
+		
+		return out;
+	}
+	
+	/**
 	 * Find the nearest location on the map to the input location coordinate.
 	 * Only locations with streets going out will be included.
 	 * @param loc Location we wish to find the nearest starting point for.
@@ -145,41 +327,14 @@ public class OSMMap {
 	}
 	
 	/**
-	 * Finds the shortest route from the 'fromLocation' ending at the 'toLocation'.
-	 * These input locations need not be vertices, instead the nearest vertex to each 
-	 * will be found and used instead.
-	 * @param fromLocation Starting position on the map.
-	 * @param toLocation Destination position on the map.
-	 * @return List of String types that is the sequence of vertex ID names that gives the path.
-	 */
-	public List<String> ShortestRoute(Location fromLocation, Location toLocation) {
-		// Which vertex should we start at?
-		String from = ClosestRoad(fromLocation);
-		// Which vertex should we go to?
-		String to = ClosestRoad(toLocation);
-		// Our shortest path utility will do all the rest of the work.
-		List<IGraph.Edge<Street>> edges = GraphAlgorithms.<Location, Street>ShortestPath(g, from, to);
-
-		// Now convert that return list of edges to the list of stops.
-		List<String> out = new ArrayList<String>();
-		// Add our starting location (this should be 'from').
-		out.add(edges.get(0).getVertexName1());
-		for (IGraph.Edge<Street> e : edges) {
-			// Now add each destination (we've already added the starting point).
-			out.add(e.getVertexName2());
-		}
-		
-		return out;
-	}
-	
-	/**
 	 * Loads all the data for the given file provided.
 	 * If this map already has data loaded, that data will be overridden.
 	 * @param filename The file we wish to load data from.
 	 */
 	public void LoadMap(String filename) {
-		// Wipe all current graph data.
+		// Wipe all current graph data and create a new directed graph.
 		g = new Graph<Location, Street>();
+		g.setDirectedGraph();
 
 		try {
 			File f = new File(filename);
@@ -234,24 +389,19 @@ public class OSMMap {
 				// Next find the list of vertices that define the edges making up this street.
 				NodeList verts = e.getElementsByTagName("nd");
 				int numverts = verts.getLength();
-				Element prev = null;
-				for (int k=0; k<numverts; k++) {
+				for (int k=1; k<numverts; k++) {
+					Element prev = (Element)verts.item(k-1);
 					Element cur = (Element)verts.item(k);
-					// If we have two vertices available to us, we can now add the edge.
-					if (prev != null) {
-						String v1 = prev.getAttribute("ref");
-						String v2 = cur.getAttribute("ref");
-						Street s = new Street(name, GetDistance(v1, v2));
-						g.addEdge(v1, v2, s);
 
-						// If this street is NOT a one way street, add the reverse edge as well.
-						if (!oneway) {
-							g.addEdge(v2, v1, s);
-						}
+					String v1 = prev.getAttribute("ref");
+					String v2 = cur.getAttribute("ref");
+					Street s = new Street(name, GetDistance(v1, v2));
+					g.addEdge(v1, v2, s);
+
+					// If this street is NOT a one way street, add the reverse edge as well.
+					if (!oneway) {
+						g.addEdge(v2, v1, s);
 					}
-
-					// Update the previous vertex reference for the next iteration.
-					prev = cur;
 				}
 			}
 
@@ -328,6 +478,10 @@ public class OSMMap {
 		 */
 		public double getLongitude() {
 			return lon;
+		}
+		
+		@Override public String toString() {
+			return lat + ", " + lon;
 		}
 		
 		/**

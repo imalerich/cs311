@@ -2,7 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.awt.List"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
-<fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="javax.activity.InvalidActivityException"/>
 <fullyQualifiedTypeName name="cs311.hw4.SlowMatrix"/>
@@ -15,7 +14,6 @@
 <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
 <fullyQualifiedTypeName name="cs311.hw4.MeasureTimeComplexity"/>
 <fullyQualifiedTypeName name="cs311.hw4.SlowMatrixFactory"/>
-<fullyQualifiedTypeName name="java.util.HashSet"/>
 <fullyQualifiedTypeName name="cs311.hw7.graph.IGraph"/>
 <fullyQualifiedTypeName name="org.omg.CORBA.Environment"/>
 <fullyQualifiedTypeName name="cs311.hw7.graph.IGraph.DuplicateVertexException"/>
@@ -34,10 +32,16 @@
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="javax.lang.model.element.Element"/>
 <fullyQualifiedTypeName name="org.w3c.dom.Element"/>
-<fullyQualifiedTypeName name="cs311.hw8.OSMMap.Location"/>
-<fullyQualifiedTypeName name="cs311.hw8.OSMMap.Street"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="cs311.hw8.graph.IGraph.Vertex"/>
+<fullyQualifiedTypeName name="cs311.hw8.OSMMap.Street"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="cs311.hw8.OSMMap.Location"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="cs311.hw8.graph.IGraph.Edge"/>
+<fullyQualifiedTypeName name="cs311.hw8.graph.IGraph"/>
+<fullyQualifiedTypeName name="java.lang.Double"/>
+<fullyQualifiedTypeName name="Edge"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="cs311.hw8.graphalgorithms.GraphAlgorithms"/>
 </qualifiedTypeNameHistroy>

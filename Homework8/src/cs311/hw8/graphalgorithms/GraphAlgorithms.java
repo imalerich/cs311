@@ -2,6 +2,7 @@
 package cs311.hw8.graphalgorithms;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,6 +14,8 @@ import java.util.Set;
 import cs311.hw8.graph.Graph;
 import cs311.hw8.graph.IGraph;
 import cs311.hw8.graph.IGraph.Edge;
+import cs311.hw8.graph.IGraph.NoSuchEdgeException;
+import cs311.hw8.graph.IGraph.NoSuchVertexException;
 import cs311.hw8.graph.IGraph.Vertex;
 
 
@@ -100,6 +103,100 @@ public class GraphAlgorithms {
 
 		return path;
 	}
+	
+	/**
+	 * Perform primm's minimum spanning tree algorithm. This is necessary for the Apporximate TSP
+	 * problem as we need the root node provided by Primm's algorithm.
+	 * @param g The graph we wish to construct a minimum spanning tree for.
+	 * @param root Name of the vertex that will be used as the root node of the tree.
+	 * @return The minimum spanning tree represented as a graph.
+	 */
+    public static <V, E extends IWeight> IGraph<V, E> Primm(IGraph<V, E> g, String root) {
+    	try {
+			// This methods requires that the graph be undirected, enforce that here.
+			g.setUndirectedGraph();
+			// This is our mst, for our in class notes it represents the v' and e' sets.
+			IGraph<V, E> mst = new Graph<V, E>();
+			mst.setUndirectedGraph();
+
+			List<Vertex<V>> VERTICES = g.getVertices();
+			
+			// IGraph.Edge has a private constructor (assholes)
+			// So will be using this to represent it instead.
+			class Edge {
+				public String v1;
+				public String v2;
+				public Double val;
+				public Edge(String V1, String V2, Double VAL) {
+					v1 = V1; v2 = V2; val = VAL;
+				}
+				@Override public boolean equals(Object obj) {
+					if (getClass() != obj.getClass()) { return false; }
+					final Edge other = (Edge)obj;
+					return other.v1.equals(this.v1) && other.v2.equals(this.v2);
+				}
+			}
+			
+			// Set of non-reached vertices yet to be included in mst.
+			Set<String> UNREACHED = new HashSet<String>();
+			// Represents potential edges to be added to the tree.
+			// All edges will have an initial weight of Double.MAX_VALUE.
+			List<Edge> EDGES = new ArrayList<Edge>();
+			
+			// Initialize the list of unreached vertices.
+			for (Vertex<V> v : VERTICES) {
+				UNREACHED.add(v.getVertexName());
+				mst.addVertex(v.getVertexName(), v.getVertexData());
+			}
+			
+			// Add all potential edges to our contender list.
+			for (IGraph.Edge<E> e : g.getEdges()) {
+				EDGES.add(new Edge(e.getVertexName1(), e.getVertexName2(), Double.MAX_VALUE));
+			}
+			
+			// Start with only our root node added to our tree.
+			UNREACHED.remove(root);
+			for (Vertex<V> v : g.getNeighbors(root)) {
+				EDGES.remove(new Edge(root, v.getVertexName(), 0.0));
+				EDGES.add(new Edge(root, v.getVertexName(), g.getEdgeData(root, v.getVertexName()).getWeight()));
+			}
+			
+			while (EDGES.size() > 0) {
+				// Sort the remaining list of edges.
+				Collections.sort(EDGES, new Comparator<Edge>() {
+					public int compare(Edge o1, Edge o2) {
+						return o1.val.compareTo(o2.val);
+					};
+				});
+				
+				// Pick the smallest edge and add it to our mst.
+				Edge min = EDGES.get(0);
+				EDGES.remove(min);
+				mst.addEdge(min.v1, min.v2, g.getEdgeData(min.v1, min.v2));
+				
+				// One of the vertices has already been added, one has not.
+				// Find out which vertex is being added, and remove it from the UNREACHED set.
+				String add = UNREACHED.contains(min.v1) ? min.v1 : min.v2;
+				UNREACHED.remove(add);
+				
+				// For all edges extending from the vertex that is now connected,
+				// we need to remove edges that go back to the 'blob' in the mst.
+				// and need to add weights that exit the 'blob' into UNREACHED vertices.
+				for (Vertex<V> v : g.getNeighbors(add)) {
+					// Remove the edge, only add it back if the edge is extending out of the blob.
+					EDGES.remove(new Edge(add, v.getVertexName(), 0.0));
+					if (UNREACHED.contains(v.getVertexName())) {
+						// This vertex is now accessible, set a proper edge weight.
+						EDGES.add(new Edge(add, v.getVertexName(), g.getEdgeData(add, v.getVertexName()).getWeight()));
+					}
+				}
+			}
+
+			return mst;
+    	} catch (Exception e) { 
+			return null;
+    	}
+    }
 	
     /* ----------------------------------------------------------------------------
      * Topological Sort(...)
